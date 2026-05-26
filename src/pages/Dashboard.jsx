@@ -5,8 +5,26 @@ import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
 
 export default function Dashboard() {
+
+  const generateSignals = (dataArray) => {
+    return dataArray.map((item) => {
+        let signal = "HOLD";
+
+        if (item.RSI < 30) signal = "BUY";
+        else if (item.RSI > 70) signal = "SELL";
+
+        return {
+        date: item.Date,
+        price: item.Close,
+        rsi: item.RSI,
+        signal,
+        };
+    });
+  };
+    
   const [ticker, setTicker] = useState("AAPL");
   const [data, setData] = useState(null);
+  const signals = data ? generateSignals(data.data) : [];
 
   const fetchData = async () => {
     //const result = await getStockData(ticker);
@@ -67,17 +85,45 @@ export default function Dashboard() {
       </div>
 
       {/* BOTTOM TABLE */}
-      <div style={styles.cardFull}>
-        <h2>Signals</h2>
+    <div style={styles.cardFull}>
+    <h2>Signals</h2>
 
-        {data ? (
-          <p style={{ opacity: 0.6 }}>
-            (Signals table will go here)
-          </p>
-        ) : (
-          <p>No data yet</p>
-        )}
-      </div>
+    {signals.length > 0 ? (
+        <table style={styles.table}>
+        <thead>
+            <tr>
+            <th style={styles.th}>Date</th>
+            <th style={styles.th}>Price</th>
+            <th style={styles.th}>RSI</th>
+            <th style={styles.th}>Signal</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {signals.map((row, idx) => (
+            <tr key={idx}>
+                <td style={styles.td}>{row.date}</td>
+                <td style={styles.td}>{row.price}</td>
+                <td style={styles.td}>{row.rsi}</td>
+                <td style={{
+                color:
+                    row.signal === "BUY"
+                    ? "#22c55e"
+                    : row.signal === "SELL"
+                    ? "#ef4444"
+                    : "#cbd5e1",
+                fontWeight: "600"
+                }}>
+                {row.signal}
+                </td>
+            </tr>
+            ))}
+        </tbody>
+        </table>
+    ) : (
+        <p>No data yet</p>
+    )}
+    </div>
 
     </div>
   );
@@ -147,4 +193,23 @@ const styles = {
     borderRadius: "12px",
     border: "1px solid #334155",
   },
+  table: {
+  width: "100%",
+  borderCollapse: "collapse",
+  marginTop: "10px",
+},
+
+th: {
+  textAlign: "left",
+  padding: "10px",
+  borderBottom: "1px solid #334155",
+  color: "#94a3b8",
+  fontSize: "12px",
+  textTransform: "uppercase",
+},
+
+td: {
+  padding: "10px",
+  borderBottom: "1px solid #1f2937",
+},
 };
