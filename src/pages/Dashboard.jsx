@@ -110,8 +110,8 @@ export default function Dashboard() {
                     row.signal === "BUY"
                     ? "#22c55e"
                     : row.signal === "SELL"
-                    ? "#ef4444"
-                    : "#cbd5e1",
+                    ? "#f87171"
+                    : "#94a3b8",
                 fontWeight: "600"
                 }}>
                 {row.signal}
@@ -131,19 +131,23 @@ export default function Dashboard() {
 
 const styles = {
   page: {
-    padding: "24px",
-    backgroundColor: "#0f172a",
+    padding: "28px",
+    backgroundColor: "#0b1220",
     minHeight: "100vh",
     color: "white",
-    fontFamily: "Inter, sans-serif",
+    fontFamily: "Inter, system-ui, sans-serif",
   },
 
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "24px",
-  },
+    marginBottom: "28px",
+    padding: "12px 16px",
+    backgroundColor: "#111827",
+    border: "1px solid #1f2937",
+    borderRadius: "12px",
+    },
 
   logo: {
     fontSize: "22px",
@@ -156,43 +160,49 @@ const styles = {
   },
 
   input: {
-    padding: "10px",
-    borderRadius: "8px",
+    padding: "10px 12px",
+    borderRadius: "10px",
     border: "1px solid #334155",
-    backgroundColor: "#1e293b",
+    backgroundColor: "#0f172a",
     color: "white",
-  },
+    outline: "none",
+    width: "200px",
+    },
 
   button: {
     padding: "10px 14px",
-    borderRadius: "8px",
+    borderRadius: "10px",
     border: "none",
     backgroundColor: "#3b82f6",
     color: "white",
     cursor: "pointer",
-  },
+    fontWeight: "500",
+    transition: "0.2s",
+    },
 
   grid: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr",
-    gap: "16px",
-    marginBottom: "16px",
-  },
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  gap: "18px",
+  marginBottom: "16px",
+},
 
   card: {
-    backgroundColor: "#1e293b",
-    padding: "16px",
-    borderRadius: "12px",
-    border: "1px solid #334155",
-    minHeight: "350px",
+  backgroundColor: "#0f172a",
+  padding: "18px",
+  borderRadius: "14px",
+  border: "1px solid #1f2937",
+  boxShadow: "0 0 0 1px rgba(255,255,255,0.02)",
 },
 
   cardFull: {
-    backgroundColor: "#1e293b",
-    padding: "16px",
-    borderRadius: "12px",
-    border: "1px solid #334155",
-  },
+  backgroundColor: "#0f172a",
+  padding: "18px",
+  borderRadius: "14px",
+  border: "1px solid #1f2937",
+  marginTop: "16px",
+},
+
   table: {
   width: "100%",
   borderCollapse: "collapse",
