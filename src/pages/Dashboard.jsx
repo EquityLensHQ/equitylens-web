@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { getStockData } from "../api/equitylensApi";
+//import { getStockData } from "../api/equitylensApi";
+import { mockStockData } from "../mock/mockStockData";
+import PriceChart from "../components/PriceChart";
+import RsiChart from "../components/RsiChart";
 
 export default function Dashboard() {
   const [ticker, setTicker] = useState("AAPL");
   const [data, setData] = useState(null);
 
   const fetchData = async () => {
-    const result = await getStockData(ticker);
-    setData(result);
+    //const result = await getStockData(ticker);
+    setData(mockStockData);
   };
 
+  console.log(data);
+  
   return (
     <div style={styles.page}>
 
@@ -35,27 +40,28 @@ export default function Dashboard() {
 
         {/* LEFT PANEL */}
         <div style={styles.card}>
-          <h2>Price Overview</h2>
+            <h2>Price Overview</h2>
 
-          {data ? (
-            <>
-              <p><b>Ticker:</b> {data.ticker}</p>
-              <p><b>Data Points:</b> {data.data.length}</p>
-              <p style={{ opacity: 0.6 }}>
-                (Price chart will go here)
-              </p>
-            </>
-          ) : (
-            <p>Search a ticker to load data</p>
-          )}
+            {data ? (
+                <>
+                <p><b>Ticker:</b> {data.ticker}</p>
+
+                <PriceChart data={data.data} />
+                </>
+            ) : (
+                <p>Search a ticker to load data</p>
+            )}
         </div>
 
         {/* RIGHT PANEL */}
         <div style={styles.card}>
-          <h2>RSI Indicator</h2>
-          <p style={{ opacity: 0.6 }}>
-            (RSI chart will go here)
-          </p>
+            <h2>RSI Indicator</h2>
+
+            {data ? (
+                <RsiChart data={data.data} />
+            ) : (
+                <p>RSI will appear here</p>
+            )}
         </div>
 
       </div>
@@ -132,8 +138,8 @@ const styles = {
     padding: "16px",
     borderRadius: "12px",
     border: "1px solid #334155",
-    minHeight: "200px",
-  },
+    minHeight: "350px",
+},
 
   cardFull: {
     backgroundColor: "#1e293b",
