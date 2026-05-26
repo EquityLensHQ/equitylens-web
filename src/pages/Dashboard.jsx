@@ -24,6 +24,7 @@ export default function Dashboard() {
     
   const [ticker, setTicker] = useState("AAPL");
   const [data, setData] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
   const signals = data ? generateSignals(data.data) : [];
 
   const fetchData = async () => {
@@ -33,6 +34,116 @@ export default function Dashboard() {
 
   console.log(data);
   
+  const theme = darkMode
+  ? {
+      bg: "#0b1220",
+      card: "#0f172a",
+      border: "#1f2937",
+      text: "#ffffff",
+      muted: "#94a3b8",
+    }
+  : {
+      bg: "#f8fafc",
+      card: "#ffffff",
+      border: "#e2e8f0",
+      text: "#0f172a",
+      muted: "#475569",
+    };
+
+    const styles = {
+  page: {
+  padding: "28px",
+  backgroundColor: theme.bg,
+  minHeight: "100vh",
+  color: theme.text,
+  fontFamily: "Inter, system-ui, sans-serif",
+},
+
+  header: {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: "28px",
+  padding: "12px 16px",
+  backgroundColor: theme.card,
+  border: `1px solid ${theme.border}`,
+  borderRadius: "12px",
+},
+
+  logo: {
+    fontSize: "22px",
+    fontWeight: "600",
+  },
+
+  searchBar: {
+    display: "flex",
+    gap: "10px",
+  },
+
+  input: {
+    padding: "10px 12px",
+    borderRadius: "10px",
+    backgroundColor: theme.card,
+    color: theme.text,
+    border: `1px solid ${theme.border}`,
+    outline: "none",
+    width: "200px",
+    },
+
+  button: {
+    padding: "10px 14px",
+    borderRadius: "10px",
+    border: "none",
+    backgroundColor: "#3b82f6",
+    color: "white",
+    cursor: "pointer",
+    fontWeight: "500",
+    transition: "0.2s",
+    },
+
+  grid: {
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  gap: "18px",
+  marginBottom: "16px",
+},
+
+ card: {
+  backgroundColor: theme.card,
+  padding: "18px",
+  borderRadius: "14px",
+  border: `1px solid ${theme.border}`,
+},
+
+ cardFull: {
+  backgroundColor: theme.card,
+  padding: "18px",
+  borderRadius: "14px",
+  border: `1px solid ${theme.border}`,
+  marginTop: "16px",
+},
+
+  table: {
+  width: "100%",
+  borderCollapse: "collapse",
+  marginTop: "10px",
+},
+
+th: {
+  textAlign: "left",
+  padding: "10px",
+  borderBottom: "1px solid #334155",
+  color: theme.muted,
+  fontSize: "12px",
+  textTransform: "uppercase",
+},
+
+td: {
+  padding: "10px",
+  borderBottom: `1px solid ${theme.border}`,
+},
+};
+
   return (
     <div style={styles.page}>
 
@@ -51,6 +162,19 @@ export default function Dashboard() {
             Analyze
           </button>
         </div>
+        <button
+            onClick={() => setDarkMode(!darkMode)}
+            style={{
+                padding: "8px 12px",
+                borderRadius: "8px",
+                border: `1px solid ${theme.border}`,
+                backgroundColor: theme.card,
+                color: theme.text,
+                cursor: "pointer",
+            }}
+            >
+            {darkMode ? "🌙 Dark" : "☀️ Light"}
+        </button>
       </div>
 
       {/* GRID DASHBOARD */}
@@ -129,97 +253,3 @@ export default function Dashboard() {
   );
 }
 
-const styles = {
-  page: {
-    padding: "28px",
-    backgroundColor: "#0b1220",
-    minHeight: "100vh",
-    color: "white",
-    fontFamily: "Inter, system-ui, sans-serif",
-  },
-
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "28px",
-    padding: "12px 16px",
-    backgroundColor: "#111827",
-    border: "1px solid #1f2937",
-    borderRadius: "12px",
-    },
-
-  logo: {
-    fontSize: "22px",
-    fontWeight: "600",
-  },
-
-  searchBar: {
-    display: "flex",
-    gap: "10px",
-  },
-
-  input: {
-    padding: "10px 12px",
-    borderRadius: "10px",
-    border: "1px solid #334155",
-    backgroundColor: "#0f172a",
-    color: "white",
-    outline: "none",
-    width: "200px",
-    },
-
-  button: {
-    padding: "10px 14px",
-    borderRadius: "10px",
-    border: "none",
-    backgroundColor: "#3b82f6",
-    color: "white",
-    cursor: "pointer",
-    fontWeight: "500",
-    transition: "0.2s",
-    },
-
-  grid: {
-  display: "grid",
-  gridTemplateColumns: "2fr 1fr",
-  gap: "18px",
-  marginBottom: "16px",
-},
-
-  card: {
-  backgroundColor: "#0f172a",
-  padding: "18px",
-  borderRadius: "14px",
-  border: "1px solid #1f2937",
-  boxShadow: "0 0 0 1px rgba(255,255,255,0.02)",
-},
-
-  cardFull: {
-  backgroundColor: "#0f172a",
-  padding: "18px",
-  borderRadius: "14px",
-  border: "1px solid #1f2937",
-  marginTop: "16px",
-},
-
-  table: {
-  width: "100%",
-  borderCollapse: "collapse",
-  marginTop: "10px",
-},
-
-th: {
-  textAlign: "left",
-  padding: "10px",
-  borderBottom: "1px solid #334155",
-  color: "#94a3b8",
-  fontSize: "12px",
-  textTransform: "uppercase",
-},
-
-td: {
-  padding: "10px",
-  borderBottom: "1px solid #1f2937",
-},
-};
