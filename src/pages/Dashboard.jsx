@@ -3,6 +3,7 @@ import { useState } from "react";
 import { mockStockData } from "../mock/mockStockData";
 import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
+import logo from "../assets/EquitylensLogo.svg";
 
 export default function Dashboard() {
 
@@ -75,31 +76,34 @@ export default function Dashboard() {
     fontWeight: "600",
   },
 
-  searchBar: {
-    display: "flex",
-    gap: "10px",
-  },
+ searchBar: {
+  display: "flex",
+  gap: "8px",
+  alignItems: "center",
+  padding: "6px",
+  borderRadius: "12px",
+  border: `1px solid ${theme.border}`,
+  backgroundColor: theme.card,
+},
 
   input: {
-    padding: "10px 12px",
-    borderRadius: "10px",
-    backgroundColor: theme.card,
-    color: theme.text,
-    border: `1px solid ${theme.border}`,
-    outline: "none",
-    width: "200px",
-    },
+  border: "none",
+  outline: "none",
+  backgroundColor: "transparent",
+  color: theme.text,
+  width: "200px",
+  fontSize: "14px",
+},
 
   button: {
-    padding: "10px 14px",
-    borderRadius: "10px",
-    border: "none",
-    backgroundColor: "#3b82f6",
-    color: "white",
-    cursor: "pointer",
-    fontWeight: "500",
-    transition: "0.2s",
-    },
+  padding: "8px 12px",
+  borderRadius: "8px",
+  border: "none",
+  backgroundColor: "#3b82f6",
+  color: "white",
+  cursor: "pointer",
+  fontWeight: "500",
+},
 
   grid: {
   display: "grid",
@@ -142,6 +146,35 @@ td: {
   padding: "10px",
   borderBottom: `1px solid ${theme.border}`,
 },
+
+leftHeader: {
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+},
+
+logoImg: {
+  width: "28px",
+  height: "28px",
+},
+
+logoText: {
+  fontSize: "18px",
+  fontWeight: "600",
+  letterSpacing: "0.3px",
+},
+toggle: {
+  padding: "8px 12px",
+  borderRadius: "10px",
+  border: `1px solid ${theme.border}`,
+  backgroundColor: theme.card,
+  color: theme.text,
+  cursor: "pointer",
+  fontWeight: "500",
+},
+
+
+
 };
 
   return (
@@ -149,32 +182,38 @@ td: {
 
       {/* HEADER */}
       <div style={styles.header}>
-        <h1 style={styles.logo}>📊 EquityLens</h1>
 
+        {/* LEFT: LOGO */}
+        <div style={styles.leftHeader}>
+            <img
+            src={logo}
+            alt="EquityLens"
+            style={styles.logoImg}
+            />
+            <h1 style={styles.logoText}>EquityLens</h1>
+        </div>
+
+        {/* CENTER: SEARCH */}
         <div style={styles.searchBar}>
-          <input
+            <input
             value={ticker}
             onChange={(e) => setTicker(e.target.value)}
             placeholder="Enter ticker (AAPL)"
             style={styles.input}
-          />
-          <button onClick={fetchData} style={styles.button}>
+            />
+            <button onClick={fetchData} style={styles.button}>
             Analyze
-          </button>
+            </button>
         </div>
+
+        {/* RIGHT: TOGGLE */}
         <button
             onClick={() => setDarkMode(!darkMode)}
-            style={{
-                padding: "8px 12px",
-                borderRadius: "8px",
-                border: `1px solid ${theme.border}`,
-                backgroundColor: theme.card,
-                color: theme.text,
-                cursor: "pointer",
-            }}
-            >
+            style={styles.toggle}
+        >
             {darkMode ? "🌙 Dark" : "☀️ Light"}
         </button>
+
       </div>
 
       {/* GRID DASHBOARD */}
