@@ -1,6 +1,6 @@
 import { useState } from "react";
-//import { getStockData } from "../api/equitylensApi";
-import { mockStockData } from "../mock/mockStockData";
+import { getStockData } from "../api/equitylensApi";
+//import { mockStockData } from "../mock/mockStockData";
 import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
 import logo from "../assets/EquitylensLogo.svg";
@@ -29,8 +29,14 @@ export default function Dashboard() {
   const signals = data ? generateSignals(data.data) : [];
 
   const fetchData = async () => {
-    //const result = await getStockData(ticker);
-    setData(mockStockData);
+    try {
+      const result = await getStockData(ticker);
+      setData(result);
+    }
+    catch (error) {
+      console.error(error)
+    }
+    
   };
 
   console.log(data);
