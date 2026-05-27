@@ -5,7 +5,7 @@ This is where the frontend will talk to the backend.
 
 import axios from "axios"; //need for api calls
 
-const API_BASE = "http://localhost:8000"; //access to the equitylensApi
+const API_BASE = import.meta.env.VITE_API_BASE; //access to the equitylensApi
 
 //get stock data for any ticker
 export async function getStockData(ticker) {
