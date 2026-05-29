@@ -1,37 +1,77 @@
 export default function Header({ darkMode, setDarkMode, theme, logo }) {
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: "28px",
-      padding: "12px 16px",
-      backgroundColor: theme.card,
-      border: `1px solid ${theme.border}`,
-      borderRadius: "12px",
-    }}>
+    <header
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "16px 24px",
+        marginBottom: "24px",
+        backgroundColor: theme.card,
+        border: `1px solid ${theme.border}`,
+        borderRadius: "16px",
+        boxShadow: darkMode
+          ? "0 4px 20px rgba(0,0,0,0.25)"
+          : "0 4px 20px rgba(15,23,42,0.05)",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "14px",
+        }}
+      >
+        <img
+          src={logo}
+          alt="EquityLens"
+          style={{
+            width: "36px",
+            height: "36px",
+          }}
+        />
 
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <img src={logo} style={{ width: "28px", height: "28px" }} />
-        <h1 style={{ fontSize: "18px", fontWeight: "600" }}>
-          EquityLens
-        </h1>
+        <div>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "20px",
+              fontWeight: "700",
+            }}
+          >
+            EquityLens
+          </h1>
+
+          <p
+            style={{
+              margin: 0,
+              fontSize: "12px",
+              color: theme.muted,
+            }}
+          >
+            Market Analytics Platform
+          </p>
+        </div>
       </div>
 
       <button
         onClick={() => setDarkMode(!darkMode)}
         style={{
-          padding: "8px 12px",
-          borderRadius: "10px",
+          width: "42px",
+          height: "42px",
+          borderRadius: "12px",
           border: `1px solid ${theme.border}`,
-          backgroundColor: theme.card,
+          backgroundColor: theme.bg,
           color: theme.text,
           cursor: "pointer",
+          fontSize: "18px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {darkMode ? "🌙 Dark" : "☀️ Light"}
+        {darkMode ? "☀️" : "🌙"}
       </button>
-
-    </div>
+    </header>
   );
 }

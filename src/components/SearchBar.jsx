@@ -6,61 +6,107 @@ export default function SearchBar({
   endDate,
   setEndDate,
   onSearch,
-  theme
+  theme,
 }) {
   return (
-    <div style={{
-      display: "flex",
-      gap: "8px",
-      alignItems: "center",
-      padding: "6px",
-      borderRadius: "12px",
-      border: `1px solid ${theme.border}`,
-      backgroundColor: theme.card,
-      flexWrap: "wrap",
-    }}>
-
-      <input
-        value={ticker}
-        onChange={(e) => setTicker(e.target.value)}
-        placeholder="AAPL"
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        padding: "16px",
+        borderRadius: "16px",
+        border: `1px solid ${theme.border}`,
+        backgroundColor: theme.card,
+        marginBottom: "20px",
+        flexWrap: "wrap",
+      }}
+    >
+      {/* Ticker */}
+      <div
         style={{
-          border: "none",
-          outline: "none",
-          backgroundColor: "transparent",
-          color: theme.text,
-          width: "100px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          padding: "10px 14px",
+          borderRadius: "12px",
+          border: `1px solid ${theme.border}`,
+          backgroundColor: theme.bg,
         }}
-      />
+      >
+        <span>🔍</span>
 
-      <input
-        type="date"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-        style={{ background: "transparent", color: theme.text }}
-      />
+        <input
+          value={ticker}
+          onChange={(e) => setTicker(e.target.value.toUpperCase())}
+          placeholder="AAPL"
+          style={{
+            border: "none",
+            outline: "none",
+            background: "transparent",
+            color: theme.text,
+            fontSize: "15px",
+            fontWeight: "600",
+            width: "100px",
+          }}
+        />
+      </div>
 
-      <input
-        type="date"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-        style={{ background: "transparent", color: theme.text }}
-      />
+      {/* Date Range */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          padding: "10px 14px",
+          borderRadius: "12px",
+          border: `1px solid ${theme.border}`,
+          backgroundColor: theme.bg,
+        }}
+      >
+        <input
+          type="date"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          style={{
+            border: "none",
+            background: "transparent",
+            color: theme.text,
+            outline: "none",
+          }}
+        />
 
+        <span style={{ color: theme.muted }}>→</span>
+
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+          style={{
+            border: "none",
+            background: "transparent",
+            color: theme.text,
+            outline: "none",
+          }}
+        />
+      </div>
+
+      {/* Search Button */}
       <button
         onClick={onSearch}
         style={{
-          padding: "8px 12px",
-          borderRadius: "8px",
+          padding: "12px 20px",
+          borderRadius: "12px",
           border: "none",
           backgroundColor: "#3b82f6",
           color: "white",
+          fontWeight: "600",
           cursor: "pointer",
+          transition: "0.2s",
         }}
       >
         Analyze
       </button>
-
     </div>
   );
 }
