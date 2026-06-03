@@ -1,300 +1,81 @@
 import { useState } from "react";
 import { getStockData } from "../api/equitylensApi";
-//import { mockStockData } from "../mock/mockStockData";
+
+import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
+import SignalsTable from "../components/SignalsTable";
+
 import logo from "../assets/EquitylensLogo.svg";
 
 export default function Dashboard() {
 
-  const generateSignals = (dataArray) => {
-    return dataArray.map((item) => {
-        let signal = "HOLD";
-
-        if (item.RSI < 30) signal = "BUY";
-        else if (item.RSI > 70) signal = "SELL";
-
-        return {
-        date: item.Date,
-        price: item.Close,
-        rsi: item.RSI,
-        signal,
-        };
-    });
-  };
-    
   const [ticker, setTicker] = useState("AAPL");
+  const [startDate, setStartDate] = useState("2025-01-01");
+  const [endDate, setEndDate] = useState("2025-12-31");
   const [data, setData] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
-  const signals = data ? generateSignals(data.data) : [];
 
   const fetchData = async () => {
-    try {
-      const result = await getStockData(ticker);
-      setData(result);
-    }
-    catch (error) {
-      console.error(error)
-    }
-    
+    const result = await getStockData(ticker, startDate, endDate);
+    setData(result);
   };
 
-  console.log(data);
-  
   const theme = darkMode
-  ? {
-      bg: "#0b1220",
-      card: "#0f172a",
-      border: "#1f2937",
-      text: "#ffffff",
-      muted: "#94a3b8",
-    }
-  : {
-      bg: "#f8fafc",
-      card: "#ffffff",
-      border: "#e2e8f0",
-      text: "#0f172a",
-      muted: "#475569",
-    };
-
-    const styles = {
-  page: {
-  padding: "28px",
-  backgroundColor: theme.bg,
-  minHeight: "100vh",
-  color: theme.text,
-  fontFamily: "Inter, system-ui, sans-serif",
-},
-
-  header: {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "28px",
-  padding: "12px 16px",
-  backgroundColor: theme.card,
-  border: `1px solid ${theme.border}`,
-  borderRadius: "12px",
-},
-
-  logo: {
-    fontSize: "22px",
-    fontWeight: "600",
-  },
-
- searchBar: {
-  display: "flex",
-  gap: "8px",
-  alignItems: "center",
-  padding: "6px",
-  borderRadius: "12px",
-  border: `1px solid ${theme.border}`,
-  backgroundColor: theme.card,
-},
-
-  input: {
-  border: "none",
-  outline: "none",
-  backgroundColor: "transparent",
-  color: theme.text,
-  width: "200px",
-  fontSize: "14px",
-},
-
-  button: {
-  padding: "8px 12px",
-  borderRadius: "8px",
-  border: "none",
-  backgroundColor: "#3b82f6",
-  color: "white",
-  cursor: "pointer",
-  fontWeight: "500",
-},
-
-  grid: {
-  display: "grid",
-  gridTemplateColumns: "2fr 1fr",
-  gap: "18px",
-  marginBottom: "16px",
-},
-
- card: {
-  backgroundColor: theme.card,
-  padding: "18px",
-  borderRadius: "14px",
-  border: `1px solid ${theme.border}`,
-},
-
- cardFull: {
-  backgroundColor: theme.card,
-  padding: "18px",
-  borderRadius: "14px",
-  border: `1px solid ${theme.border}`,
-  marginTop: "16px",
-},
-
-  table: {
-  width: "100%",
-  borderCollapse: "collapse",
-  marginTop: "10px",
-},
-
-th: {
-  textAlign: "left",
-  padding: "10px",
-  borderBottom: "1px solid #334155",
-  color: theme.muted,
-  fontSize: "12px",
-  textTransform: "uppercase",
-},
-
-td: {
-  padding: "10px",
-  borderBottom: `1px solid ${theme.border}`,
-},
-
-leftHeader: {
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-},
-
-logoImg: {
-  width: "28px",
-  height: "28px",
-},
-
-logoText: {
-  fontSize: "18px",
-  fontWeight: "600",
-  letterSpacing: "0.3px",
-},
-toggle: {
-  padding: "8px 12px",
-  borderRadius: "10px",
-  border: `1px solid ${theme.border}`,
-  backgroundColor: theme.card,
-  color: theme.text,
-  cursor: "pointer",
-  fontWeight: "500",
-},
-
-
-
-};
+    ? {
+        bg: "#0b1220",
+        card: "#0f172a",
+        border: "#1f2937",
+        text: "#ffffff",
+      }
+    : {
+        bg: "#f8fafc",
+        card: "#ffffff",
+        border: "#e2e8f0",
+        text: "#0f172a",
+      };
 
   return (
-    <div style={styles.page}>
+    <div style={{ padding: 28, background: theme.bg, minHeight: "100vh", color: theme.text }}>
 
-      {/* HEADER */}
-      <div style={styles.header}>
+      <Header
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        theme={theme}
+        logo={logo}
+      />
 
-        {/* LEFT: LOGO */}
-        <div style={styles.leftHeader}>
-            <img
-            src={logo}
-            alt="EquityLens"
-            style={styles.logoImg}
-            />
-            <h1 style={styles.logoText}>EquityLens</h1>
+      <SearchBar
+        ticker={ticker}
+        setTicker={setTicker}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        onSearch={fetchData}
+        theme={theme}
+      />
+
+      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 18, marginTop: 18 }}>
+
+        <div style={{ background: theme.card, padding: 18, borderRadius: 12 }}>
+          <h2>Price Overview</h2>
+          {data && <PriceChart data={data.data} />}
         </div>
 
-        {/* CENTER: SEARCH */}
-        <div style={styles.searchBar}>
-            <input
-            value={ticker}
-            onChange={(e) => setTicker(e.target.value)}
-            placeholder="Enter ticker (AAPL)"
-            style={styles.input}
-            />
-            <button onClick={fetchData} style={styles.button}>
-            Analyze
-            </button>
-        </div>
-
-        {/* RIGHT: TOGGLE */}
-        <button
-            onClick={() => setDarkMode(!darkMode)}
-            style={styles.toggle}
-        >
-            {darkMode ? "🌙 Dark" : "☀️ Light"}
-        </button>
-
-      </div>
-
-      {/* GRID DASHBOARD */}
-      <div style={styles.grid}>
-
-        {/* LEFT PANEL */}
-        <div style={styles.card}>
-            <h2>Price Overview</h2>
-
-            {data ? (
-                <>
-                <p><b>Ticker:</b> {data.ticker}</p>
-
-                <PriceChart data={data.data} />
-                </>
-            ) : (
-                <p>Search a ticker to load data</p>
-            )}
-        </div>
-
-        {/* RIGHT PANEL */}
-        <div style={styles.card}>
-            <h2>RSI Indicator</h2>
-
-            {data ? (
-                <RsiChart data={data.data} />
-            ) : (
-                <p>RSI will appear here</p>
-            )}
+        <div style={{ background: theme.card, padding: 18, borderRadius: 12 }}>
+          <h2>RSI</h2>
+          {data && <RsiChart data={data.data} />}
         </div>
 
       </div>
 
-      {/* BOTTOM TABLE */}
-    <div style={styles.cardFull}>
-    <h2>Signals</h2>
-
-    {signals.length > 0 ? (
-        <table style={styles.table}>
-        <thead>
-            <tr>
-            <th style={styles.th}>Date</th>
-            <th style={styles.th}>Price</th>
-            <th style={styles.th}>RSI</th>
-            <th style={styles.th}>Signal</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {signals.map((row, idx) => (
-            <tr key={idx}>
-                <td style={styles.td}>{row.date}</td>
-                <td style={styles.td}>{row.price}</td>
-                <td style={styles.td}>{row.rsi}</td>
-                <td style={{
-                color:
-                    row.signal === "BUY"
-                    ? "#22c55e"
-                    : row.signal === "SELL"
-                    ? "#f87171"
-                    : "#94a3b8",
-                fontWeight: "600"
-                }}>
-                {row.signal}
-                </td>
-            </tr>
-            ))}
-        </tbody>
-        </table>
-    ) : (
-        <p>No data yet</p>
-    )}
-    </div>
+      <div style={{ marginTop: 18, background: theme.card, padding: 18, borderRadius: 12 }}>
+        <h2>Signals</h2>
+        {data && <SignalsTable data={data.data} />}
+      </div>
 
     </div>
   );
 }
-
