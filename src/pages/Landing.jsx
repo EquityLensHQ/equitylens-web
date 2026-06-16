@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getStockData } from "../api/equitylensApi";
 import PriceChart from "../components/PriceChart";
+import logo from "../assets/EquitylensLogo.svg";
 import "./Landing.css";
 
 
@@ -47,7 +48,14 @@ export default function Landing() {
 
         {/* TOP NAV (simple, real-product feel) */}
         <div className="nav">
-          <div className="logo">EquityLens</div>
+          <div className="brand">
+            <img
+              src={logo}
+              alt="EquityLens"
+              className="brand-logo"
+            />
+            <span>EquityLens</span>
+          </div>
 
           <button
             className="nav-btn"

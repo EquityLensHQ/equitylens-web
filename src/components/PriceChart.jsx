@@ -5,40 +5,76 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
 } from "recharts";
+
+import "./PriceChart.css";
 
 export default function PriceChart({ data }) {
   if (!data || !data.length) return null;
 
-  const chartData = data.map((item) => ({
-    date: new Date(item.date),
-    close: item.close,
-  }));
-
   return (
-    <div style={{ width: "100%", height: 300 }}>
+    <div className="price-chart">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
+        <LineChart
+          data={data}
+          margin={{
+            top: 10,
+            right: 10,
+            left: 0,
+            bottom: 10,
+          }}
+        >
+          <CartesianGrid
+            stroke="#e2e8f0"
+            vertical={false}
+          />
+
           <XAxis
             dataKey="date"
-            angle={-45}
-            textAnchor="end"
-            height={60}
+            tick={{
+              fontSize: 11,
+              fill: "#64748b",
+            }}
             tickFormatter={(value) =>
               new Date(value).toLocaleDateString("en-US", {
                 month: "short",
-                day: "numeric",
               })
             }
+            tickLine={false}
+            axisLine={false}
           />
-          <YAxis />
-          <Tooltip />
+
+          <YAxis
+            tick={{
+              fontSize: 11,
+              fill: "#64748b",
+            }}
+            tickFormatter={(value) => `$${Math.round(value)}`}
+            tickLine={false}
+            axisLine={false}
+            width={55}
+          />
+
+          <Tooltip
+            formatter={(value) => [
+              `$${Number(value).toFixed(2)}`,
+              "Close",
+            ]}
+            labelFormatter={(value) =>
+              new Date(value).toLocaleDateString()
+            }
+          />
+
           <Line
             type="monotone"
             dataKey="close"
-            stroke="#3b82f6"
-            strokeWidth={2}
+            stroke="#2563eb"
+            strokeWidth={2.5}
             dot={false}
+            activeDot={{
+              r: 5,
+            }}
           />
         </LineChart>
       </ResponsiveContainer>
