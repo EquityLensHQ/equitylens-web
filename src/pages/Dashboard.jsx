@@ -1,72 +1,100 @@
 import { useState } from "react";
 import { getStockData } from "../api/equitylensApi";
 
-import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
-import SignalsTable from "../components/SignalsTable";
 
 import logo from "../assets/EquitylensLogo.svg";
+import "./Dashboard.css";
 
 export default function Dashboard() {
-
   const [ticker, setTicker] = useState("AAPL");
   const [startDate, setStartDate] = useState("2025-01-01");
   const [endDate, setEndDate] = useState("2025-12-31");
   const [data, setData] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
-    const result = await getStockData(ticker, startDate, endDate);
-    setData(result);
+    try {
+      setLoading(true);
+      const result = await getStockData(ticker, startDate, endDate);
+      setData(result.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const theme = darkMode
-    ? {
-        bg: "#0b1220",
-        card: "#0f172a",
-        border: "#1f2937",
-        text: "#ffffff",
-      }
-    : {
-        bg: "#f8fafc",
-        card: "#ffffff",
-        border: "#e2e8f0",
-        text: "#0f172a",
-      };
-
   return (
-    <div style={{ padding: 28, background: theme.bg, minHeight: "100vh", color: theme.text }}>
+    <div className="dashboard-page">
 
-      <Header
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-        theme={theme}
-        logo={logo}
-      />
-
-      <SearchBar
-        ticker={ticker}
-        setTicker={setTicker}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        onSearch={fetchData}
-        theme={theme}
-      />
-
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 18, marginTop: 18 }}>
-
-        <div style={{ background: theme.card, padding: 18, borderRadius: 12 }}>
-          <h2>Price Overview</h2>
-          {data && <PriceChart data={data.data} />}
+      {/* TOP NAV (same as Landing) */}
+      <div className="container">
+        <div className="nav">
+          <div className="brand">
+            <img src={logo} className="brand-logo" />
+            <span>EquityLens</span>
+          </div>
         </div>
 
+        {/* HEADER SECTION */}
+        <div className="dashboard-hero">
+          <h1>
+            Market <span>Dashboard</span>
+          </h1>
+          <p>
+            Analyze equities with technical indicators and cached market data.
+          </p>
+        </div>
 
+        {/* SEARCH CARD */}
+        <div className="search-card">
+          <SearchBar
+            ticker={ticker}
+            setTicker={setTicker}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            onSearch={fetchData}
+          />
+        </div>
+
+        {/* MAIN GRID */}
+        <div className="grid">
+
+          {/* PRICE CHART */}
+          <div className="chart-card">
+            <div className="card-header">
+              <div>Price Overview</div>
+              <div className="badge">{ticker}</div>
+            </div>
+
+            <div className="chart-area">
+              {loading ? (
+                <div className="loading">Loading chart...</div>
+              ) : (
+                data && <PriceChart data={data} />
+              )}
+            </div>
+          </div>
+
+          {/* RSI CHART */}
+          <div className="chart-card">
+            <div className="card-header">
+              <div>RSI Indicator</div>
+              <div className="badge">14D</div>
+            </div>
+
+            <div className="chart-area">
+              {data && <RsiChart data={data} />}
+            </div>
+          </div>
+
+        </div>
       </div>
-
     </div>
   );
 }

@@ -18,12 +18,7 @@ export default function PriceChart({ data }) {
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
-          margin={{
-            top: 10,
-            right: 10,
-            left: 0,
-            bottom: 10,
-          }}
+          margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
         >
           <CartesianGrid
             stroke="#e2e8f0"
