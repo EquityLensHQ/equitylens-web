@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./AuthLanding.css";
+import logo from "../assets/EquitylensLogo.svg";
+
 
 export default function AuthLanding() {
   const [mode, setMode] = useState("login");
@@ -11,11 +13,19 @@ export default function AuthLanding() {
 
         {/* HEADER */}
         <div className="auth-header">
-          <h1 className="brand">EquityLens</h1>
+
+          <div className="auth-brand">
+            <img src={logo} alt="EquityLens" className="auth-logo" />
+            <h1 className="brand-name">EquityLens</h1>
+          </div>
+
           <p className="subtitle">
             Sign in to access your market dashboard
           </p>
+
         </div>
+
+
 
         {/* TOGGLE */}
         <div className="tabs">

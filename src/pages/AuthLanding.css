@@ -1,31 +1,46 @@
-/* PAGE */
+/* PAGE BASE (MATCH DASHBOARD) */
 .auth-page {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f8fafc;
   font-family: Inter, system-ui, sans-serif;
   color: #0f172a;
+  position: relative;
+}
+
+/* subtle fintech glow like dashboard */
+.auth-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(56, 189, 248, 0.08), transparent 40%);
+  pointer-events: none;
 }
 
 /* CARD */
 .auth-card {
-  width: 380px;
+  width: 100%;
+  max-width: 420px;
   background: white;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 32px;
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+  border-radius: 16px; /* match dashboard cards */
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  z-index: 1;
 }
 
 /* HEADER */
 .auth-header {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 18px;
 }
 
 .brand {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
 }
@@ -34,6 +49,7 @@
   font-size: 14px;
   color: #64748b;
   margin-top: 6px;
+  line-height: 1.5;
 }
 
 /* TABS */
@@ -46,11 +62,17 @@
 .tabs button {
   flex: 1;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
   color: #475569;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.tabs button:hover {
+  border-color: #cbd5f5;
 }
 
 .tabs button.active {
@@ -68,48 +90,54 @@
 
 .form input {
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
   outline: none;
+  font-size: 14px;
+  transition: all 0.15s ease;
 }
 
 .form input:focus {
-  border-color: #3b82f6;
+  border-color: #2563eb;
   background: white;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* BUTTON */
+/* PRIMARY BUTTON (MATCH DASHBOARD CTA STYLE) */
 .primary-btn {
   margin-top: 6px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
   background: #2563eb;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .primary-btn:hover {
   background: #1d4ed8;
 }
 
-/* GUEST */
+/* GUEST BUTTON (MATCH SECONDARY STYLE) */
 .guest-btn {
   width: 100%;
   margin-top: 12px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: white;
   color: #475569;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
 .guest-btn:hover {
   border-color: #2563eb;
   color: #2563eb;
+  background: #f8fafc;
 }
 
 /* FOOTER */
@@ -118,4 +146,38 @@
   font-size: 11px;
   color: #94a3b8;
   text-align: center;
+  line-height: 1.4;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .auth-card {
+    margin: 0 16px;
+    padding: 20px;
+  }
+
+  .brand {
+    font-size: 22px;
+  }
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.auth-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
 }
