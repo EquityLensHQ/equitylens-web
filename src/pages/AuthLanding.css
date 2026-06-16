@@ -1,0 +1,121 @@
+/* PAGE */
+.auth-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  font-family: Inter, system-ui, sans-serif;
+  color: #0f172a;
+}
+
+/* CARD */
+.auth-card {
+  width: 380px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+}
+
+/* HEADER */
+.auth-header {
+  margin-bottom: 20px;
+}
+
+.brand {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  outline: none;
+}
+
+.form input:focus {
+  border-color: #3b82f6;
+  background: white;
+}
+
+/* BUTTON */
+.primary-btn {
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #1d4ed8;
+}
+
+/* GUEST */
+.guest-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #475569;
+  cursor: pointer;
+}
+
+.guest-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+}
