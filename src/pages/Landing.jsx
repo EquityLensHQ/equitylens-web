@@ -1,8 +1,42 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getStockData } from "../api/equitylensApi";
+import PriceChart from "../components/PriceChart";
 import "./Landing.css";
+
 
 export default function Landing() {
   const navigate = useNavigate();
+
+  const [ticker] = useState("AAPL");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        setLoading(true);
+
+        const result = await getStockData(
+          "AAPL",
+          "2025-01-01",
+          "2025-06-01"
+        );
+
+        setData(result.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
+
+  console.log("API Data:", data);
+
 
   return (
     <div className="landing-page">
@@ -60,15 +94,38 @@ export default function Landing() {
 
           {/* RIGHT SIDE VISUAL BLOCK (not a "boxed form") */}
           <div className="hero-right">
-            <div className="stat-card">
-              <div className="stat-title">Market Coverage</div>
-              <div className="stat-value">10,000+ Stocks</div>
+
+            <div className="preview-card">
+
+              <div className="preview-header">
+                <div className="ticker">AAPL</div>
+                <div className="range">6M</div>
+              </div>
+
+              
+              <div className="chart-wrapper">
+
+                {loading ? (
+                  <div style={{ fontSize: 14, color: "#64748b" }}>
+                    Loading chart...
+                  </div>
+                ) : (
+                  <PriceChart data={data} /> 
+                )}
+
+
+              </div>
+
+
+
+              <div className="preview-footer">
+                <span>Live market preview</span>
+                <span className="status">● simulated data</span>
+              </div>
+
             </div>
 
-            <div className="stat-card">
-              <div className="stat-title">Latency</div>
-              <div className="stat-value">&lt; 120ms cached</div>
-            </div>
+          </div>
 
           
           </div>
@@ -77,6 +134,6 @@ export default function Landing() {
 
       </div>
 
-    </div>
+    
   );
 }
