@@ -42,6 +42,10 @@
   font-weight: 700;
 }
 
+.brand:hover {
+  opacity: 0.8;
+}
+
 .brand-logo {
   width: 32px;
   height: 32px;
