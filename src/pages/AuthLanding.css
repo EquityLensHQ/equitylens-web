@@ -181,3 +181,9 @@
   margin: 0;
   color: #0f172a;
 }
+
+.auth-error {
+  color: #dc2626;
+  margin-top: 10px;
+  font-size: 14px;
+}

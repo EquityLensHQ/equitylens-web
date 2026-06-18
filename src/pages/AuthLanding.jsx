@@ -1,10 +1,54 @@
 import { useState } from "react";
 import "./AuthLanding.css";
+import { register, login } from "../api/authApi"
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/EquitylensLogo.svg";
 
 
 export default function AuthLanding() {
   const [mode, setMode] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setError("");
+
+      if (mode === "signup") {
+        await register(email, password);
+
+        // automatically log them in
+        const authData = await login(
+          email,
+          password
+        );
+
+        localStorage.setItem(
+          "token",
+          authData.access_token
+        );
+      } else {
+        const authData = await login(
+          email,
+          password
+        );
+
+        localStorage.setItem(
+          "token",
+          authData.access_token
+        );
+      }
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="auth-page">
@@ -45,21 +89,52 @@ export default function AuthLanding() {
         </div>
 
         {/* FORM */}
-        <form className="form">
+        <form className="form" onSubmit={handleSubmit}>
           {mode === "signup" && (
             <input type="text" placeholder="Full Name" />
           )}
 
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
 
-          <button className="primary-btn">
-            {mode === "login" ? "Sign In" : "Create Account"}
+          <button
+            type="submit"
+            className="primary-btn"
+          >
+            {mode === "login"
+              ? "Sign In"
+              : "Create Account"}
           </button>
+
+              {
+                error && (
+                  <p className="auth-error"> {error} </p>
+                )
+              }
+
         </form>
 
+        
+
         {/* GUEST */}
-        <button className="guest-btn">
+        <button
+          className="guest-btn"
+          onClick={() => navigate("/dashboard")}
+        >
           Continue as Guest
         </button>
 
