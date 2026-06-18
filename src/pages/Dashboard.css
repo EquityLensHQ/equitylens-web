@@ -193,3 +193,18 @@
     width: 100%;
   }
 }
+
+.logout-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}

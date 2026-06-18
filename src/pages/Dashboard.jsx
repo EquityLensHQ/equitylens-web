@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getStockData } from "../api/equitylensApi";
 
 import SearchBar from "../components/SearchBar";
@@ -14,6 +15,8 @@ export default function Dashboard() {
   const [endDate, setEndDate] = useState("2025-12-31");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const fetchData = async () => {
     try {
@@ -37,6 +40,17 @@ export default function Dashboard() {
             <img src={logo} className="brand-logo" />
             <span>EquityLens</span>
           </div>
+          {token && (
+            <button
+              className="logout-btn"
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/");
+              }}
+            >
+              Log Out
+            </button>
+          )}
         </div>
 
         {/* HEADER SECTION */}
