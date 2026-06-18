@@ -36,7 +36,7 @@ export default function Dashboard() {
       {/* TOP NAV (same as Landing) */}
       <div className="container">
         <div className="nav">
-          <div className="brand">
+          <div className="brand" onClick={() => navigate("/")}>
             <img src={logo} className="brand-logo" />
             <span>EquityLens</span>
           </div>
