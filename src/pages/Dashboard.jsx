@@ -19,7 +19,9 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [watchlist, setWatchList] = useState([]);
-  const isInWatchlist = watchlist.some(w => w.ticker === ticker);
+  const isInWatchlist = (ticker) => {
+    return watchlist.some((item) => item.ticker === ticker);
+  };
 
   const fetchData = async () => {
       try {
@@ -45,6 +47,8 @@ export default function Dashboard() {
       console.error(err);
     }
   };
+
+  
 
   return (
     <div className="dashboard-page">
@@ -91,20 +95,6 @@ export default function Dashboard() {
             onSearch={fetchData}
           />
 
-          <button
-            className="watchlist-btn"
-            onClick={async () => {
-              try {
-                await addToWatchlist(ticker);
-                await loadWatchlist(); // refresh UI
-              } catch (err) {
-                console.error(err);
-              }
-            }}
-          >
-            + Add to Watchlist
-          </button>
-
         </div>
 
         {/* MAIN GRID */}
@@ -120,17 +110,35 @@ export default function Dashboard() {
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                   <div className="badge">{ticker}</div>
 
-                  <button 
-                    className={`watchlist-mini-btn ${isInWatchlist ? "saved" : ""}`}
+                  <button
+                    className={`watchlist-mini-btn ${
+                      isInWatchlist(ticker) ? "saved" : ""
+                    }`}
                     onClick={async () => {
                       try {
-                        await addToWatchlist(ticker);
-                        await loadWatchlist(); // refresh UI
+                        const existing = watchlist.find(
+                          (item) => item.ticker === ticker
+                        );
+
+                        // OPTIMISTIC UPDATE (instant UI feel)
+                        if (existing) {
+                          setWatchList((prev) =>
+                            prev.filter((w) => w.id !== existing.id)
+                          );
+
+                          await removeFromWatchlist(existing.id);
+                        } else {
+                          const newItem = await addToWatchlist(ticker);
+
+                          setWatchList((prev) => [...prev, newItem]);
+                        }
                       } catch (err) {
                         console.error(err);
+                        await loadWatchlist(); // fallback sync
                       }
-                    }}>
-                    {isInWatchlist ? "★ Saved" : "☆ Watchlist"}
+                    }}
+                  >
+                    {isInWatchlist(ticker) ? "★ Saved" : "☆ Watchlist"}
                   </button>
                 </div>
               </div>
