@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL;
+const API_BASE = import.meta.env.VITE_API_BASE;
+console.log("WATCHLIST API:", API_BASE);
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
