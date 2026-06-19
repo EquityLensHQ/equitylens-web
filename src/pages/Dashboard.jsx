@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStockData } from "../api/equitylensApi";
+import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchListApi";
 
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
@@ -17,18 +18,42 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [watchlist, setWatchList] = useState([]);
+  const isInWatchlist = (ticker) => {
+    return watchlist.some((item) => item.ticker === ticker);
+  };
+  //const [activeTicker, setActiveTicker] = useState("AAPL");
 
   const fetchData = async () => {
+      try {
+        setLoading(true);
+        const result = await getStockData(ticker, startDate, endDate);
+        setData(result.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    useEffect(() => {
+    loadWatchlist();
+  }, []);
+
+  const loadWatchlist = async () => {
     try {
-      setLoading(true);
-      const result = await getStockData(ticker, startDate, endDate);
-      setData(result.data);
+      const data = await fetchWatchlist();
+      setWatchList(data);
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [ticker]);
+
+  
 
   return (
     <div className="dashboard-page">
@@ -74,29 +99,118 @@ export default function Dashboard() {
             setEndDate={setEndDate}
             onSearch={fetchData}
           />
+
         </div>
 
         {/* MAIN GRID */}
-        <div className="grid">
+        <div className="dashboard-layout">
 
-          {/* PRICE CHART */}
-          <div className="chart-card">
-            <div className="card-header">
-              <div>Price Overview</div>
-              <div className="badge">{ticker}</div>
+          <div className="top-grid"> {/* START TOP GRID */}
+
+            {/* PRICE CHART */}
+            <div className="chart-card">
+              <div className="card-header">
+                <div>Price Overview</div>
+
+                <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                  <div className="badge">{ticker}</div>
+
+                  <button
+                    className={`watchlist-mini-btn ${
+                      isInWatchlist(ticker) ? "saved" : ""
+                    }`}
+                    onClick={async () => {
+                      try {
+                        const existing = watchlist.find(
+                          (item) => item.ticker === ticker
+                        );
+
+                        // OPTIMISTIC UPDATE (instant UI feel)
+                        if (existing) {
+                          setWatchList((prev) =>
+                            prev.filter((w) => w.id !== existing.id)
+                          );
+
+                          await removeFromWatchlist(existing.id);
+                        } else {
+                          const newItem = await addToWatchlist(ticker);
+
+                          setWatchList((prev) => [...prev, newItem]);
+                        }
+                      } catch (err) {
+                        console.error(err);
+                        await loadWatchlist(); // fallback sync
+                      }
+                    }}
+                  >
+                    {isInWatchlist(ticker) ? "★ Saved" : "☆ Watchlist"}
+                  </button>
+                </div>
+              </div>
+
+              <div className="chart-area">
+                {loading ? (
+                  <div className="loading">Loading chart...</div>
+                ) : (
+                  data && <PriceChart data={data} />
+                )}
+              </div>
             </div>
 
-            <div className="chart-area">
-              {loading ? (
-                <div className="loading">Loading chart...</div>
+
+            {/* WATCHLIST */}
+            <div className="watchlist-card">
+              <h3 className="watchlist-title">
+                Watchlist
+              </h3>
+
+              {watchlist.length === 0 ? (
+                <p>No saved tickers</p>
               ) : (
-                data && <PriceChart data={data} />
+                watchlist.map((item) => (
+                  <div key={item.id} 
+                  className={`watchlist-item ${ticker === item.ticker ? "active" : ""}  watchlist-ticker clickable`}
+                  onClick={() => {
+                    setTicker(item.ticker);
+                    
+                  }}
+                  >
+                    <span>{item.ticker}</span>
+
+                    <button
+                      className="remove-btn"
+                      onClick={async () => {
+                        await removeFromWatchlist(item.id);
+                        await loadWatchlist();
+                      }}
+                    >
+                      x
+                    </button>
+                  </div>
+                ))
               )}
             </div>
-          </div>
+
+          </div> {/* END TOP GRID */}
+
+
+
+
+          
+
+
+
+
+
+
+          
+
+
+
+
 
           {/* RSI CHART */}
-          <div className="chart-card">
+          <div className="chart-card full-width-card">
             <div className="card-header">
               <div>RSI Indicator</div>
               <div className="badge">14D</div>
@@ -106,6 +220,11 @@ export default function Dashboard() {
               {data && <RsiChart data={data} />}
             </div>
           </div>
+
+
+
+
+
 
         </div>
       </div>
