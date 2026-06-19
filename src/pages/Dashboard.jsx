@@ -22,6 +22,7 @@ export default function Dashboard() {
   const isInWatchlist = (ticker) => {
     return watchlist.some((item) => item.ticker === ticker);
   };
+  //const [activeTicker, setActiveTicker] = useState("AAPL");
 
   const fetchData = async () => {
       try {
@@ -47,6 +48,10 @@ export default function Dashboard() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, [ticker]);
 
   
 
@@ -163,7 +168,13 @@ export default function Dashboard() {
                 <p>No saved tickers</p>
               ) : (
                 watchlist.map((item) => (
-                  <div key={item.id} className="watchlist-item">
+                  <div key={item.id} 
+                  className={`watchlist-item ${ticker === item.ticker ? "active" : ""}  watchlist-ticker clickable`}
+                  onClick={() => {
+                    setTicker(item.ticker);
+                    
+                  }}
+                  >
                     <span>{item.ticker}</span>
 
                     <button
