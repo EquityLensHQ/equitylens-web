@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStockData } from "../api/equitylensApi";
-import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchListApi";
+import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchlistApi";
 
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
