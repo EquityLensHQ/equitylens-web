@@ -24,16 +24,25 @@ export default function Dashboard() {
     return watchlist.some((item) => item.ticker === ticker);
   };
   const [activeTicker, setActiveTicker] = useState("AAPL");
+  const [error, setError] = useState(null);
 
   const fetchData = async () => {
       try {
         setLoading(true);
         setData(null);
         setActiveTicker(ticker)
+        setError(null)
         const result = await getStockData(ticker, startDate, endDate);
+        
+        if (!result || result.data.length === 0) {
+          setError("No market data found for this ticker.")
+          return;
+        }
+
         setData(result.data);
       } catch (err) {
         console.error(err);
+        setError("Unable to load stock data.")
       } finally {
         setLoading(false);
       }
@@ -116,7 +125,7 @@ export default function Dashboard() {
                 <div>Price Overview</div>
 
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                  <div className="badge">{ticker}</div>
+                  <div className="badge">{activeTicker}</div>
 
                   <button
                     className={`watchlist-mini-btn ${
@@ -169,6 +178,13 @@ export default function Dashboard() {
                     <div className="spinner"></div>
                     <p>Loading market data...</p>
                   </div>
+                ) : error ? (
+
+                  <div className="chart-error">
+                    <h3>No Data Found</h3>
+                    <p>{error}</p>
+                  </div>
+                
                 ) : (
                   data && <PriceChart data={data} />
                 )}

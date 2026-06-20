@@ -472,3 +472,18 @@
     transform: rotate(360deg);
   }
 }
+
+.chart-error {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #64748b;
+}
+
+.chart-error h3 {
+  color: #0f172a;
+  margin-bottom: 8px;
+}
