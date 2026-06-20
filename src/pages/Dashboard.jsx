@@ -23,11 +23,13 @@ export default function Dashboard() {
   const isInWatchlist = (ticker) => {
     return watchlist.some((item) => item.ticker === ticker);
   };
-  //const [activeTicker, setActiveTicker] = useState("AAPL");
+  const [activeTicker, setActiveTicker] = useState("AAPL");
 
   const fetchData = async () => {
       try {
         setLoading(true);
+        setData(null);
+        setActiveTicker(ticker)
         const result = await getStockData(ticker, startDate, endDate);
         setData(result.data);
       } catch (err) {
@@ -52,9 +54,7 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [ticker]);
+ 
 
   
 
