@@ -114,12 +114,13 @@ export default function Landing() {
               <div className="chart-wrapper">
 
                 {loading ? (
-                  <div style={{ fontSize: 14, color: "#64748b" }}>
-                    Loading chart...
+                  <div className="chart-loading">
+                    <div className="spinner"></div>
+                    <p>Loading market data...</p>
                   </div>
-                ) : (
-                  <PriceChart data={data} /> 
-                )}
+                    ) : (
+                      data && <PriceChart data={data} />
+                  )}
 
 
               </div>
