@@ -165,7 +165,10 @@ export default function Dashboard() {
 
               <div className="chart-area">
                 {loading ? (
-                  <div className="loading">Loading chart...</div>
+                  <div className="chart-loading">
+                    <div className="spinner"></div>
+                    <p>Loading market data...</p>
+                  </div>
                 ) : (
                   data && <PriceChart data={data} />
                 )}
@@ -207,38 +210,6 @@ export default function Dashboard() {
             </div>
 
           </div> {/* END TOP GRID */}
-
-
-
-
-          
-
-
-
-
-
-
-          
-
-
-
-
-
-          {/* RSI CHART */}
-          <div className="chart-card full-width-card">
-            <div className="card-header">
-              <div>RSI Indicator</div>
-              <div className="badge">14D</div>
-            </div>
-
-            <div className="chart-area">
-              {data && <RsiChart data={data} />}
-            </div>
-          </div>
-
-
-
-
 
 
         </div>

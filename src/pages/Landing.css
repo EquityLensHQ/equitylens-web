@@ -242,12 +242,3 @@
   object-fit: contain;
 }
 
-.watchlist-ticker {
-  font-weight: 600;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.watchlist-ticker:hover {
-  color: #2563eb;
-}
