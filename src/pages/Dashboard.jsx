@@ -19,6 +19,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [watchlist, setWatchList] = useState([]);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const isInWatchlist = (ticker) => {
     return watchlist.some((item) => item.ticker === ticker);
   };
@@ -37,8 +38,10 @@ export default function Dashboard() {
     };
 
     useEffect(() => {
-    loadWatchlist();
-  }, []);
+      if (token) {
+        loadWatchlist();
+      }
+  }, [token]);
 
   const loadWatchlist = async () => {
     try {
@@ -120,26 +123,38 @@ export default function Dashboard() {
                       isInWatchlist(ticker) ? "saved" : ""
                     }`}
                     onClick={async () => {
+                      /* check if user is logged in, before adding to watch list */
+                      if (!token) {
+                        setShowLoginPopup(true);
+                        return;
+                      }
+
                       try {
                         const existing = watchlist.find(
                           (item) => item.ticker === ticker
                         );
 
-                        // OPTIMISTIC UPDATE (instant UI feel)
+                        // OPTIMISTIC UPDATE
                         if (existing) {
+
                           setWatchList((prev) =>
                             prev.filter((w) => w.id !== existing.id)
                           );
 
                           await removeFromWatchlist(existing.id);
+
                         } else {
+
                           const newItem = await addToWatchlist(ticker);
 
                           setWatchList((prev) => [...prev, newItem]);
                         }
+
                       } catch (err) {
+
                         console.error(err);
-                        await loadWatchlist(); // fallback sync
+                        await loadWatchlist();
+
                       }
                     }}
                   >
@@ -150,7 +165,10 @@ export default function Dashboard() {
 
               <div className="chart-area">
                 {loading ? (
-                  <div className="loading">Loading chart...</div>
+                  <div className="chart-loading">
+                    <div className="spinner"></div>
+                    <p>Loading market data...</p>
+                  </div>
                 ) : (
                   data && <PriceChart data={data} />
                 )}
@@ -194,40 +212,43 @@ export default function Dashboard() {
           </div> {/* END TOP GRID */}
 
 
-
-
-          
-
-
-
-
-
-
-          
-
-
-
-
-
-          {/* RSI CHART */}
-          <div className="chart-card full-width-card">
-            <div className="card-header">
-              <div>RSI Indicator</div>
-              <div className="badge">14D</div>
-            </div>
-
-            <div className="chart-area">
-              {data && <RsiChart data={data} />}
-            </div>
-          </div>
-
-
-
-
-
-
         </div>
       </div>
+
+      {/* loing pop up modal */}
+      {showLoginPopup && (
+        <div className="modal-overlay">
+
+          <div className="login-modal">
+
+            <h2>Sign in required</h2>
+
+            <p>
+              Please sign in to add stocks to your watchlist.
+            </p>
+
+
+            <button
+              className="modal-login-btn"
+              onClick={() => navigate("/auth")}
+            >
+              Sign In
+            </button>
+
+
+            <button
+              className="modal-cancel-btn"
+              onClick={() => setShowLoginPopup(false)}
+            >
+              Cancel
+            </button>
+
+          </div>
+
+        </div>
+      )}
+
+
     </div>
   );
 }
