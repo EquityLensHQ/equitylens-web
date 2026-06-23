@@ -92,7 +92,7 @@ export default function Dashboard() {
     if (ticker) {
       fetchData();
     }
-  }, [ticker]);
+  }, [ticker, startDate, endDate]);
 
 
   const loadWatchlist = async () => {
