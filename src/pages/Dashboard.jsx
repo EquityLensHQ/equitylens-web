@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStockData } from "../api/equitylensApi";
 import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchlistApi";
+import QuickInsights from "../components/QuickInsights";
+import { getInsights } from "../api/insightsApi";
 
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
@@ -10,7 +12,10 @@ import RsiChart from "../components/RsiChart";
 import logo from "../assets/EquitylensLogo.svg";
 import "./Dashboard.css";
 
+import EquityLensScore from "../components/EquityLensScore";
+
 export default function Dashboard() {
+  const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
   const [startDate, setStartDate] = useState("2025-01-01");
   const [endDate, setEndDate] = useState("2025-12-31");
@@ -25,34 +30,73 @@ export default function Dashboard() {
   };
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [error, setError] = useState(null);
+  const [insights, setInsights] = useState([])
+  const score = 72; // placeholder for now
 
   const fetchData = async () => {
-      try {
-        setLoading(true);
-        setData(null);
-        setActiveTicker(ticker)
-        setError(null)
-        const result = await getStockData(ticker, startDate, endDate);
-        
-        if (!result || result.data.length === 0) {
-          setError("No market data found for this ticker.")
-          return;
-        }
+    try {
+      setLoading(true);
+      setData(null);
+      setInsights([]);
+      setActiveTicker(ticker);
+      setError(null);
 
-        setData(result.data);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load stock data.")
-      } finally {
-        setLoading(false);
+      const result = await getStockData(
+        ticker,
+        startDate,
+        endDate
+      );
+
+      if (!result || !result.data || result.data.length === 0) {
+        setError("No market data found for this ticker.");
+        return;
       }
-    };
+
+      setData(result.data);
+
+
+      try {
+
+        const insightResult = await getInsights(
+          ticker,
+          startDate,
+          endDate
+        );
+
+        setInsights(insightResult.insights || []);
+
+      } catch (err) {
+
+        console.error("Insights error:", err);
+        setInsights([]);
+
+      }
+
+
+    } catch (err) {
+
+      console.error(err);
+      setError("Unable to load stock data.");
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
 
     useEffect(() => {
       if (token) {
         loadWatchlist();
       }
   }, [token]);
+
+    useEffect(() => {
+    if (ticker) {
+      fetchData();
+    }
+  }, [ticker, startDate, endDate]);
+
 
   const loadWatchlist = async () => {
     try {
@@ -103,13 +147,13 @@ export default function Dashboard() {
         {/* SEARCH CARD */}
         <div className="search-card">
           <SearchBar
-            ticker={ticker}
-            setTicker={setTicker}
+            ticker={inputTicker}
+            setTicker={setInputTicker}
             startDate={startDate}
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
-            onSearch={fetchData}
+            onSearch={() => setTicker(inputTicker)}
           />
 
         </div>
@@ -206,6 +250,8 @@ export default function Dashboard() {
                   className={`watchlist-item ${ticker === item.ticker ? "active" : ""}  watchlist-ticker clickable`}
                   onClick={() => {
                     setTicker(item.ticker);
+                    setActiveTicker(item.ticker);
+                    setInputTicker(item.ticker)
                     
                   }}
                   >
@@ -227,6 +273,10 @@ export default function Dashboard() {
 
           </div> {/* END TOP GRID */}
 
+          <div className="bottom-grid">
+            <EquityLensScore score={score} /> 
+            <QuickInsights insights={insights} />
+          </div>
 
         </div>
       </div>

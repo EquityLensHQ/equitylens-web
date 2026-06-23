@@ -1,0 +1,97 @@
+.score-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px;
+
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 260px;
+}
+
+/* title like your other cards */
+.score-title {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+/* layout wrapper */
+.score-body {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+/* svg ring */
+.score-ring {
+  width: 200px;
+  height: 200px;
+  transform: rotate(-90deg);
+  animation: rotateIn 0.8s ease-out;
+}
+
+@keyframes rotateIn {
+  from {
+    transform: rotate(-270deg) scale(0.95);
+    opacity: 0.6;
+  }
+  to {
+    transform: rotate(-90deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* background ring */
+.ring-bg {
+  fill: none;
+  stroke: #e5e7eb;
+}
+
+/* progress ring */
+.ring-progress {
+  fill: none;
+  stroke: #2563eb;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* center content */
+.score-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-number {
+  font-size: 50px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
