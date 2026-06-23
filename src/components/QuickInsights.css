@@ -1,0 +1,89 @@
+.insights-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* HEADER */
+.insights-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.insights-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.insights-header p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* STATUS BADGE */
+.insights-status {
+  background: none;
+  color: #64748b;
+  padding: 0;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* EMPTY STATE */
+.insights-empty {
+  font-size: 14px;
+  color: #94a3b8;
+  padding: 10px 0;
+}
+
+/* LIST */
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ITEM */
+.insight-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+}
+
+/* LEFT INDICATOR */
+.insight-marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2563eb;
+  margin-top: 6px;
+}
+
+/* CONTENT */
+.insight-type {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2563eb;
+  text-transform: capitalize;
+  margin-bottom: 4px;
+}
+
+.insight-message {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+}

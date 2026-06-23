@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStockData } from "../api/equitylensApi";
 import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchlistApi";
+import QuickInsights from "../components/QuickInsights";
+import { getInsights } from "../api/insightsApi";
 
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
@@ -25,28 +27,59 @@ export default function Dashboard() {
   };
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [error, setError] = useState(null);
+  const [insights, setInsights] = useState([])
 
   const fetchData = async () => {
-      try {
-        setLoading(true);
-        setData(null);
-        setActiveTicker(ticker)
-        setError(null)
-        const result = await getStockData(ticker, startDate, endDate);
-        
-        if (!result || result.data.length === 0) {
-          setError("No market data found for this ticker.")
-          return;
-        }
+    try {
+      setLoading(true);
+      setData(null);
+      setInsights([]);
+      setActiveTicker(ticker);
+      setError(null);
 
-        setData(result.data);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load stock data.")
-      } finally {
-        setLoading(false);
+      const result = await getStockData(
+        ticker,
+        startDate,
+        endDate
+      );
+
+      if (!result || !result.data || result.data.length === 0) {
+        setError("No market data found for this ticker.");
+        return;
       }
-    };
+
+      setData(result.data);
+
+
+      try {
+
+        const insightResult = await getInsights(
+          ticker,
+          startDate,
+          endDate
+        );
+
+        setInsights(insightResult.insights || []);
+
+      } catch (err) {
+
+        console.error("Insights error:", err);
+        setInsights([]);
+
+      }
+
+
+    } catch (err) {
+
+      console.error(err);
+      setError("Unable to load stock data.");
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
 
     useEffect(() => {
       if (token) {
@@ -227,6 +260,7 @@ export default function Dashboard() {
 
           </div> {/* END TOP GRID */}
 
+          <QuickInsights insights={insights} />
 
         </div>
       </div>
