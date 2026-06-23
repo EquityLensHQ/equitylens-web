@@ -12,6 +12,8 @@ import RsiChart from "../components/RsiChart";
 import logo from "../assets/EquitylensLogo.svg";
 import "./Dashboard.css";
 
+import EquityLensScore from "../components/EquityLensScore";
+
 export default function Dashboard() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
@@ -29,6 +31,7 @@ export default function Dashboard() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [error, setError] = useState(null);
   const [insights, setInsights] = useState([])
+  const score = 72; // placeholder for now
 
   const fetchData = async () => {
     try {
@@ -270,7 +273,10 @@ export default function Dashboard() {
 
           </div> {/* END TOP GRID */}
 
-          <QuickInsights insights={insights} />
+          <div className="bottom-grid">
+            <EquityLensScore score={score} /> 
+            <QuickInsights insights={insights} />
+          </div>
 
         </div>
       </div>

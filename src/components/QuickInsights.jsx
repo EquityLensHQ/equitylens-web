@@ -11,7 +11,7 @@ export default function QuickInsights({ insights }) {
         </div>
 
         <div className="insights-status">
-          EquityLens Analysis
+          MARKET INTELLIGENCE
         </div>
 
       </div>
