@@ -13,6 +13,7 @@ import logo from "../assets/EquitylensLogo.svg";
 import "./Dashboard.css";
 
 export default function Dashboard() {
+  const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
   const [startDate, setStartDate] = useState("2025-01-01");
   const [endDate, setEndDate] = useState("2025-12-31");
@@ -87,6 +88,13 @@ export default function Dashboard() {
       }
   }, [token]);
 
+    useEffect(() => {
+    if (ticker) {
+      fetchData();
+    }
+  }, [ticker]);
+
+
   const loadWatchlist = async () => {
     try {
       const data = await fetchWatchlist();
@@ -136,13 +144,13 @@ export default function Dashboard() {
         {/* SEARCH CARD */}
         <div className="search-card">
           <SearchBar
-            ticker={ticker}
-            setTicker={setTicker}
+            ticker={inputTicker}
+            setTicker={setInputTicker}
             startDate={startDate}
             setStartDate={setStartDate}
             endDate={endDate}
             setEndDate={setEndDate}
-            onSearch={fetchData}
+            onSearch={() => setTicker(inputTicker)}
           />
 
         </div>
@@ -239,6 +247,8 @@ export default function Dashboard() {
                   className={`watchlist-item ${ticker === item.ticker ? "active" : ""}  watchlist-ticker clickable`}
                   onClick={() => {
                     setTicker(item.ticker);
+                    setActiveTicker(item.ticker);
+                    setInputTicker(item.ticker)
                     
                   }}
                   >
