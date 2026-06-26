@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./MarketOverview.css";
 import { getOverview } from "../api/overviewApi";
+import Navbar from "../components/Navbar";
 
 
 export default function MarketOverview() {
@@ -92,6 +93,8 @@ export default function MarketOverview() {
   return (
     <div className="market-page">
         <div className="container">
+        
+        <Navbar />
 
         <h1 className="title">Market Overview</h1>
 
@@ -157,7 +160,7 @@ export default function MarketOverview() {
 
         {top && (
             <div className="top-banner">
-            🏆 Best Performer (12M):{" "}
+            Best Performer (12M):{" "}
             <strong>{top.ticker}</strong> {top.name} —{" "}
             <span className="positive">{top.return_12m}%</span>
             </div>

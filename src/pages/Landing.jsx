@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getStockData } from "../api/equitylensApi";
 import PriceChart from "../components/PriceChart";
 import logo from "../assets/EquitylensLogo.svg";
+import Navbar from "../components/Navbar";
 import "./Landing.css";
 
 
@@ -47,23 +48,7 @@ export default function Landing() {
     
 
         {/* TOP NAV (simple, real-product feel) */}
-        <div className="nav">
-          <div className="brand">
-            <img
-              src={logo}
-              alt="EquityLens"
-              className="brand-logo"
-            />
-            <span>EquityLens</span>
-          </div>
-
-          <button
-            className="nav-btn"
-            onClick={() => navigate("/auth")}
-          >
-            Sign In
-          </button>
-        </div>
+        <Navbar />
 
         {/* HERO */}
         <div className="hero">

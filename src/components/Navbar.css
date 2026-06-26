@@ -1,0 +1,93 @@
+.nav-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: transparent;
+}
+
+.nav {
+  width: 100%;
+  max-width: 1200px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 24px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 20px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.brand:hover {
+  opacity: 0.8;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-link {
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-weight: 500;
+  cursor: pointer;
+
+  padding: 8px 10px;
+  border-radius: 8px;
+
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: #f1f5f9;
+  color: #2563eb;
+}
+
+.login-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  border: 1px solid #e2e8f0;
+  background: white;
+
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.login-btn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.logout-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  border: 1px solid #e2e8f0;
+  background: white;
+
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+}
