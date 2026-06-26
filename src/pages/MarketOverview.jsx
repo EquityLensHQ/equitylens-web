@@ -74,15 +74,15 @@ export default function MarketOverview() {
             </div>
         )}
 
-        {overview &&
+        <div className="overview-grid">
+
+            {overview &&
             Object.keys(overview).map((category) => {
             const items = overview[category];
 
             const best =
                 items.length > 0
-                ? [...items].sort(
-                    (a, b) => b.return_12m - a.return_12m
-                    )[0]
+                ? [...items].sort((a, b) => b.return_12m - a.return_12m)[0]
                 : null;
 
             return (
@@ -90,29 +90,34 @@ export default function MarketOverview() {
 
                 <h2 className="category-title">{category}</h2>
 
-                <div className="cards-grid">
+                <div className="table-card">
 
+                    {/* HEADER ROW */}
+                    <div className="table-header">
+                    <div>Ticker</div>
+                    <div>Name</div>
+                    <div style={{ textAlign: "right" }}>12M Return</div>
+                    </div>
+
+                    {/* ROWS */}
                     {items.map((item) => (
                     <div
                         key={item.ticker}
-                        className={`market-card ${getIntensity(
-                        item.return_12m
-                        )} ${
-                        best?.ticker === item.ticker
-                            ? "category-best"
-                            : ""
+                        className={`table-row ${
+                        best?.ticker === item.ticker ? "highlight-row" : ""
                         }`}
                     >
 
-                        <div className="ticker">{item.ticker}</div>
-                        <div className="name">{item.name}</div>
+                        <div className="ticker-cell">{item.ticker}</div>
+
+                        <div className="name-cell">{item.name}</div>
 
                         <div
-                        className={
+                        className={`return-cell ${
                             item.return_12m >= 0
-                            ? "return positive"
-                            : "return negative"
-                        }
+                            ? "positive"
+                            : "negative"
+                        }`}
                         >
                         {item.return_12m}%
                         </div>
@@ -124,6 +129,8 @@ export default function MarketOverview() {
                 </div>
             );
             })}
+
+        </div>
 
         </div>
     </div>
