@@ -8,6 +8,7 @@ export default function MarketOverview() {
   const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [sortMode, setSortMode] = useState("default");
+  const [openSort, setOpenSort] = useState(false);
 
   const getTopPerformer = () => {
     if (!overview) return null;
@@ -94,37 +95,63 @@ export default function MarketOverview() {
 
         <h1 className="title">Market Overview</h1>
 
-        <div className="overview-controls">
+        
 
-            <span>
-                Sort:
-            </span>
-
+        <div className="sort-dropdown">
 
             <button
-                className={sortMode === "default" ? "active" : ""}
-                onClick={() => setSortMode("default")}
+                className="sort-button"
+                onClick={() => setOpenSort(!openSort)}
             >
-                Default
+
+                {sortMode === "default" && "Default"}
+                {sortMode === "highest" && "Highest Return"}
+                {sortMode === "lowest" && "Lowest Return"}
+
+                <span>⌄</span>
+
             </button>
 
 
-            <button
-                className={sortMode === "highest" ? "active" : ""}
-                onClick={() => setSortMode("highest")}
-            >
-                Best Performers
-            </button>
+            {openSort && (
+
+                <div className="sort-menu">
+
+                <div
+                    onClick={() => {
+                    setSortMode("default");
+                    setOpenSort(false);
+                    }}
+                >
+                    Default
+                </div>
 
 
-            <button
-                className={sortMode === "lowest" ? "active" : ""}
-                onClick={() => setSortMode("lowest")}
-            >
-                Worst Performers
-            </button>
+                <div
+                    onClick={() => {
+                    setSortMode("highest");
+                    setOpenSort(false);
+                    }}
+                >
+                    Highest Return
+                </div>
+
+
+                <div
+                    onClick={() => {
+                    setSortMode("lowest");
+                    setOpenSort(false);
+                    }}
+                >
+                    Lowest Return
+                </div>
+
+                </div>
+
+            )}
 
         </div>
+
 
 
 

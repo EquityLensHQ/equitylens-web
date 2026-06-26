@@ -493,3 +493,169 @@
   border-color:#2563eb;
 
 }
+
+.overview-select {
+
+  padding:8px 12px;
+
+  border-radius:10px;
+
+  border:1px solid #e2e8f0;
+
+  background:white;
+
+  color:#475569;
+
+  font-size:14px;
+
+  cursor:pointer;
+
+}
+
+
+.overview-select:focus {
+
+  outline:none;
+
+  border-color:#2563eb;
+
+}
+
+
+/* ========================= */
+/* SORT CONTROL */
+/* ========================= */
+
+.sort-dropdown {
+
+  position:relative;
+
+}
+
+
+.sort-button {
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+
+  padding:10px 14px;
+
+
+  border-radius:12px;
+
+
+  border:1px solid #e2e8f0;
+
+
+  background:white;
+
+
+  color:#0f172a;
+
+
+  font-size:14px;
+
+  font-weight:500;
+
+
+  cursor:pointer;
+
+
+  transition:.2s ease;
+
+}
+
+
+.sort-button:hover {
+
+  border-color:#2563eb;
+
+}
+
+
+.sort-button span {
+
+  font-size:12px;
+
+  color:#64748b;
+
+}
+
+
+
+/* DROPDOWN PANEL */
+
+.sort-menu {
+
+
+  position:absolute;
+
+
+  top:48px;
+
+
+  left:0;
+
+
+  width:180px;
+
+
+  background:white;
+
+
+  border:1px solid #e2e8f0;
+
+
+  border-radius:14px;
+
+
+  padding:6px;
+
+
+  box-shadow:
+  0 10px 30px rgba(15,23,42,.12);
+
+
+  z-index:50;
+
+
+}
+
+
+
+.sort-menu div {
+
+
+  padding:10px 12px;
+
+
+  border-radius:10px;
+
+
+  font-size:14px;
+
+
+  color:#475569;
+
+
+  cursor:pointer;
+
+
+}
+
+
+
+.sort-menu div:hover {
+
+
+  background:#f1f5ff;
+
+
+  color:#2563eb;
+
+
+}
