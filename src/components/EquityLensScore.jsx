@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./EquityLensScore.css";
 
-export default function EquityLensScore({ score = 72 }) {
+export default function EquityLensScore({ score }) {
   const [displayScore, setDisplayScore] = useState(0);
 
   useEffect(() => {

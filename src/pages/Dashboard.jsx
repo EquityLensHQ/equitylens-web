@@ -4,6 +4,7 @@ import { getStockData } from "../api/equitylensApi";
 import { fetchWatchlist, addToWatchlist, removeFromWatchlist } from "../api/watchlistApi";
 import QuickInsights from "../components/QuickInsights";
 import { getInsights } from "../api/insightsApi";
+import { getScore } from "../api/scoreApi"
 
 import SearchBar from "../components/SearchBar";
 import PriceChart from "../components/PriceChart";
@@ -31,7 +32,8 @@ export default function Dashboard() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [error, setError] = useState(null);
   const [insights, setInsights] = useState([])
-  const score = 72; // placeholder for now
+  //const score = 72; // placeholder for now
+  const [score, setScore] = useState(0)
 
   const fetchData = async () => {
     try {
@@ -65,10 +67,31 @@ export default function Dashboard() {
 
         setInsights(insightResult.insights || []);
 
+
       } catch (err) {
 
         console.error("Insights error:", err);
         setInsights([]);
+
+      }
+
+      try {
+
+        const scoreResult = await getScore(
+          ticker,
+          startDate,
+          endDate
+        );
+
+        console.log("SCORE RESPONSE:", scoreResult);
+
+        setScore(scoreResult.score);
+
+
+      } catch (err) {
+
+        console.error("Score error:", err);
+        setScore(0);
 
       }
 
