@@ -7,6 +7,7 @@ export default function MarketOverview() {
 
   const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sortMode, setSortMode] = useState("default");
 
   const getTopPerformer = () => {
     if (!overview) return null;
@@ -60,11 +61,72 @@ export default function MarketOverview() {
     return "heat-negative";
     };
 
+
+    const sortItems = (items) => {
+
+        if (sortMode === "default") {
+            return items;
+        }
+
+
+        if (sortMode === "highest") {
+
+            return [...items].sort(
+            (a,b) => b.return_12m - a.return_12m
+            );
+
+        }
+
+
+        if (sortMode === "lowest") {
+
+            return [...items].sort(
+            (a,b) => a.return_12m - b.return_12m
+            );
+
+        }
+
+    };
+
   return (
     <div className="market-page">
         <div className="container">
 
         <h1 className="title">Market Overview</h1>
+
+        <div className="overview-controls">
+
+            <span>
+                Sort:
+            </span>
+
+
+            <button
+                className={sortMode === "default" ? "active" : ""}
+                onClick={() => setSortMode("default")}
+            >
+                Default
+            </button>
+
+
+            <button
+                className={sortMode === "highest" ? "active" : ""}
+                onClick={() => setSortMode("highest")}
+            >
+                Best Performers
+            </button>
+
+
+            <button
+                className={sortMode === "lowest" ? "active" : ""}
+                onClick={() => setSortMode("lowest")}
+            >
+                Worst Performers
+            </button>
+
+        </div>
+
+
 
         {top && (
             <div className="top-banner">
@@ -100,7 +162,7 @@ export default function MarketOverview() {
                     </div>
 
                     {/* ROWS */}
-                    {items.map((item) => (
+                    {sortItems(items).map((item) => (
                     <div
                         key={item.ticker}
                         className={`table-row ${

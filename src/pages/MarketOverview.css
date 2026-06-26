@@ -306,10 +306,7 @@
 
 .highlight-row{
 
-  background:#f1f5ff;
-
-  outline:
-    1px solid #2563eb;
+  background:rgba(37, 99, 235, 0.06);
 
 }
 
@@ -420,5 +417,79 @@
 
   }
 
+
+}
+
+
+
+/* ========================= */
+/* OVERVIEW CONTROLS */
+/* ========================= */
+
+
+.overview-controls {
+
+  margin-top:18px;
+
+  margin-bottom:18px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  flex-wrap:wrap;
+
+}
+
+
+.overview-controls span {
+
+  font-size:14px;
+
+  color:#64748b;
+
+}
+
+
+
+.overview-controls button {
+
+  padding:8px 14px;
+
+  border-radius:10px;
+
+  border:1px solid #e2e8f0;
+
+  background:white;
+
+  color:#475569;
+
+  cursor:pointer;
+
+  font-size:13px;
+
+  transition:.15s ease;
+
+}
+
+
+.overview-controls button:hover {
+
+  border-color:#2563eb;
+
+  color:#2563eb;
+
+}
+
+
+.overview-controls button.active {
+
+  background:#2563eb;
+
+  color:white;
+
+  border-color:#2563eb;
 
 }
