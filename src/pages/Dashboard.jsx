@@ -15,6 +15,8 @@ import "./Dashboard.css";
 
 import EquityLensScore from "../components/EquityLensScore";
 
+import Navbar from "../components/Navbar";
+
 export default function Dashboard() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
@@ -137,25 +139,10 @@ export default function Dashboard() {
   return (
     <div className="dashboard-page">
 
-      {/* TOP NAV (same as Landing) */}
+      
       <div className="container">
-        <div className="nav">
-          <div className="brand" onClick={() => navigate("/")}>
-            <img src={logo} className="brand-logo" />
-            <span>EquityLens</span>
-          </div>
-          {token && (
-            <button
-              className="logout-btn"
-              onClick={() => {
-                localStorage.removeItem("token");
-                navigate("/");
-              }}
-            >
-              Log Out
-            </button>
-          )}
-        </div>
+        {/* TOP NAV (same as Landing) */}
+        <Navbar />
 
         {/* HEADER SECTION */}
         <div className="dashboard-hero">
