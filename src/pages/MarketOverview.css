@@ -659,3 +659,21 @@
 
 
 }
+
+
+.loading-state {
+  width: 100%;
+  padding: 60px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #64748b;
+  gap: 12px;
+}
+
+.loading-state p {
+  font-size: 14px;
+}
