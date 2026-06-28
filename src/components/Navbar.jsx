@@ -38,6 +38,13 @@ export default function Navbar() {
             Market
           </button>
 
+          <button
+            className="nav-link"
+            onClick={() => navigate("/macrostats")}
+          >
+            Macro Stats
+          </button>
+
           {token ? (
             <button
               className="logout-btn"
