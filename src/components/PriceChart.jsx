@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   CartesianGrid,
+  ReferenceLine,
 } from "recharts";
 
 import "./PriceChart.css";
@@ -14,14 +15,17 @@ import "./PriceChart.css";
 export default function PriceChart({ data }) {
   if (!data || !data.length) return null;
 
+  const lastPrice = data[data.length - 1]?.close;
+
   return (
     <div className="price-chart">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
-          margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 40, left: 0, bottom: 0 }}
         >
-          {/* Gradient fill */}
+
+          {/* Gradient */}
           <defs>
             <linearGradient id="priceColor" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
@@ -32,7 +36,7 @@ export default function PriceChart({ data }) {
           {/* Grid */}
           <CartesianGrid stroke="#eef2f7" vertical={false} opacity={0.4} />
 
-          {/* X AXIS (FIXED: no duplicate months) */}
+          {/* X AXIS (clean monthly ticks only) */}
           <XAxis
             dataKey="date"
             tick={({ x, y, payload, index }) => {
@@ -41,11 +45,11 @@ export default function PriceChart({ data }) {
                 ? new Date(data[index - 1].date)
                 : null;
 
-              const showLabel =
+              const show =
                 !prev ||
                 current.getMonth() !== prev.getMonth();
 
-              if (!showLabel) return null;
+              if (!show) return null;
 
               return (
                 <text
@@ -67,19 +71,20 @@ export default function PriceChart({ data }) {
 
           {/* Y AXIS */}
           <YAxis
+            orientation="right"
             tick={{ fontSize: 11, fill: "#94a3b8" }}
-            tickFormatter={(value) => `$${Math.round(value)}`}
+            tickFormatter={(v) => `$${Math.round(v)}`}
             tickLine={false}
             axisLine={false}
-            width={55}
+            width={60}
           />
 
-          {/* TOOLTIP + CROSSHAIR */}
+          {/* CROSSHAIR + TOOLTIP */}
           <Tooltip
             cursor={{
-              stroke: "#2563eb",
-              strokeWidth: 1,
-              strokeDasharray: "4 4",
+              stroke: "rgba(37,99,235,0.35)",
+              strokeWidth: 1.5,
+              strokeDasharray: "3 3",
             }}
             content={({ active, payload, label }) => {
               if (!active || !payload || !payload.length) return null;
@@ -104,7 +109,7 @@ export default function PriceChart({ data }) {
             }}
           />
 
-          {/* Area */}
+          {/* Subtle price line glow */}
           <Area
             type="monotone"
             dataKey="close"
@@ -112,20 +117,34 @@ export default function PriceChart({ data }) {
             fill="url(#priceColor)"
           />
 
-          {/* Line */}
+          {/* Main line (slightly thicker + smooth) */}
           <Line
             type="monotone"
             dataKey="close"
             stroke="#2563eb"
-            strokeWidth={2.2}
+            strokeWidth={2.4}
             dot={false}
             activeDot={{
-              r: 5,
+              r: 6,
               stroke: "#2563eb",
               strokeWidth: 2,
               fill: "#fff",
             }}
           />
+
+          {/* RIGHT SIDE LIVE PRICE LINE */}
+          <ReferenceLine
+            y={lastPrice}
+            stroke="rgba(37,99,235,0.6)"
+            strokeDasharray="3 3"
+            label={{
+              value: `$${Number(lastPrice).toFixed(2)}`,
+              position: "right",
+              fill: "#2563eb",
+              fontSize: 12,
+            }}
+          />
+
         </AreaChart>
       </ResponsiveContainer>
     </div>
