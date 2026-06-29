@@ -15,17 +15,52 @@ import "./PriceChart.css";
 export default function PriceChart({ data }) {
   if (!data || !data.length) return null;
 
+  // ----------------------------
+  // 📊 Dynamic Y-axis scaling
+  // ----------------------------
+  const prices = data.map((d) => d.close);
+
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
+  // padding for clean visual breathing room
+  const padding = (maxPrice - minPrice) * 0.08 || 1;
+
+  // 🔥 IMPORTANT: clamp minimum at 0
+  const yMin = Math.max(0, minPrice - padding);
+  const yMax = maxPrice + padding;
+
   const lastPrice = data[data.length - 1]?.close;
+
+  // ----------------------------
+  // 📅 Clean monthly ticks
+  // ----------------------------
+  const formatMonthTick = (value, index) => {
+    const current = new Date(value);
+    const prev = data[index - 1]
+      ? new Date(data[index - 1].date)
+      : null;
+
+    const show =
+      !prev || current.getMonth() !== prev.getMonth();
+
+    if (!show) return "";
+
+    return current.toLocaleDateString("en-US", {
+      month: "short",
+    });
+  };
 
   return (
     <div className="price-chart">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
-          margin={{ top: 10, right: 40, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
         >
-
-          {/* Gradient */}
+          {/* ---------------------------- */}
+          {/* Gradient fill */}
+          {/* ---------------------------- */}
           <defs>
             <linearGradient id="priceColor" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
@@ -33,23 +68,23 @@ export default function PriceChart({ data }) {
             </linearGradient>
           </defs>
 
+          {/* ---------------------------- */}
           {/* Grid */}
-          <CartesianGrid stroke="#eef2f7" vertical={false} opacity={0.4} />
+          {/* ---------------------------- */}
+          <CartesianGrid
+            stroke="#eef2f7"
+            vertical={false}
+            opacity={0.4}
+          />
 
-          {/* X AXIS (clean monthly ticks only) */}
+          {/* ---------------------------- */}
+          {/* X Axis */}
+          {/* ---------------------------- */}
           <XAxis
             dataKey="date"
             tick={({ x, y, payload, index }) => {
-              const current = new Date(payload.value);
-              const prev = data[index - 1]
-                ? new Date(data[index - 1].date)
-                : null;
-
-              const show =
-                !prev ||
-                current.getMonth() !== prev.getMonth();
-
-              if (!show) return null;
+              const label = formatMonthTick(payload.value, index);
+              if (!label) return null;
 
               return (
                 <text
@@ -59,9 +94,7 @@ export default function PriceChart({ data }) {
                   fontSize={11}
                   fill="#64748b"
                 >
-                  {current.toLocaleDateString("en-US", {
-                    month: "short",
-                  })}
+                  {label}
                 </text>
               );
             }}
@@ -69,17 +102,22 @@ export default function PriceChart({ data }) {
             axisLine={false}
           />
 
-          {/* Y AXIS */}
+          {/* ---------------------------- */}
+          {/* Y Axis (clamped + responsive) */}
+          {/* ---------------------------- */}
           <YAxis
             orientation="right"
             tick={{ fontSize: 11, fill: "#94a3b8" }}
-            tickFormatter={(v) => `$${Math.round(v)}`}
+            tickFormatter={(v) => `$${Number(v).toFixed(2)}`}
             tickLine={false}
             axisLine={false}
-            width={60}
+            width={45}
+            domain={[yMin, yMax]}
           />
 
-          {/* CROSSHAIR + TOOLTIP */}
+          {/* ---------------------------- */}
+          {/* Hover crosshair + tooltip */}
+          {/* ---------------------------- */}
           <Tooltip
             cursor={{
               stroke: "rgba(37,99,235,0.35)",
@@ -109,7 +147,9 @@ export default function PriceChart({ data }) {
             }}
           />
 
-          {/* Subtle price line glow */}
+          {/* ---------------------------- */}
+          {/* Area fill */}
+          {/* ---------------------------- */}
           <Area
             type="monotone"
             dataKey="close"
@@ -117,7 +157,9 @@ export default function PriceChart({ data }) {
             fill="url(#priceColor)"
           />
 
-          {/* Main line (slightly thicker + smooth) */}
+          {/* ---------------------------- */}
+          {/* Price line */}
+          {/* ---------------------------- */}
           <Line
             type="monotone"
             dataKey="close"
@@ -132,7 +174,9 @@ export default function PriceChart({ data }) {
             }}
           />
 
-          {/* RIGHT SIDE LIVE PRICE LINE */}
+          {/* ---------------------------- */}
+          {/* Last price reference */}
+          {/* ---------------------------- */}
           <ReferenceLine
             y={lastPrice}
             stroke="rgba(37,99,235,0.6)"
@@ -144,7 +188,6 @@ export default function PriceChart({ data }) {
               fontSize: 12,
             }}
           />
-
         </AreaChart>
       </ResponsiveContainer>
     </div>
