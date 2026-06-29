@@ -1,21 +1,25 @@
-import "./OverviewTable.css";
-
-export default function OverviewTable({ items = [], loading, sortItems, best }) {
+export default function OverviewCategoryCard({
+  title,
+  items,
+  sortItems,
+  best,
+}) {
   return (
-    <div className="table-card">
+    <div className="category-section">
 
-      {/* HEADER */}
-      <div className="table-header">
-        <div>Ticker</div>
-        <div>Name</div>
-        <div style={{ textAlign: "right" }}>12M Return</div>
-      </div>
+      <h2 className="category-title">{title}</h2>
 
-      {/* BODY */}
-      {loading ? (
-        <OverviewTableSkeleton />
-      ) : (
-        sortItems(items).map((item) => (
+      <div className="table-card">
+
+        {/* HEADER */}
+        <div className="table-header">
+          <div>Ticker</div>
+          <div>Name</div>
+          <div style={{ textAlign: "right" }}>12M Return</div>
+        </div>
+
+        {/* ROWS */}
+        {sortItems(items).map((item) => (
           <div
             key={item.ticker}
             className={`table-row ${
@@ -23,9 +27,7 @@ export default function OverviewTable({ items = [], loading, sortItems, best }) 
             }`}
           >
             <div className="ticker-cell">{item.ticker}</div>
-
             <div className="name-cell">{item.name}</div>
-
             <div
               className={`return-cell ${
                 item.return_12m >= 0 ? "positive" : "negative"
@@ -34,9 +36,9 @@ export default function OverviewTable({ items = [], loading, sortItems, best }) 
               {item.return_12m}%
             </div>
           </div>
-        ))
-      )}
+        ))}
 
+      </div>
     </div>
   );
 }
