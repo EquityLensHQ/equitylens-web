@@ -4,6 +4,7 @@ import { getOverview } from "../api/overviewApi";
 import Navbar from "../components/Navbar";
 import OverviewCategoryCard from "../components/OverviewCategoryCard";
 import OverviewCategoryCardSkeleton from "../components/OverviewCategoryCardSkeleton";
+import { MARKET_CATEGORIES } from "../data/marketCategories";
 
 
 export default function MarketOverview() {
@@ -110,29 +111,22 @@ export default function MarketOverview() {
         {/* MAIN GRID */}
         <div className="overview-grid">
 
-          {categories.map((category) => {
-            const items = overview?.[category] || [];
-
-            const best =
-              items.length > 0
-                ? [...items].sort((a, b) => b.return_12m - a.return_12m)[0]
-                : null;
-
-            return loading ? (
-              <OverviewCategoryCardSkeleton
-                key={category}
-                title={category}
-              />
-            ) : (
-              <OverviewCategoryCard
-                key={category}
-                title={category}
-                items={items}
-                sortItems={sortItems}
-                best={best}
-              />
-            );
-          })}
+            {MARKET_CATEGORIES.map((category) => (
+                loading ? (
+                <OverviewCategoryCardSkeleton
+                    key={category.title}
+                    title={category.title}
+                />
+                ) : (
+                <OverviewCategoryCard
+                    key={category.title}
+                    title={category.title}
+                    items={category.data}
+                    sortItems={sortItems}
+                    best={[...category.data].sort((a,b)=>b.return_12m-a.return_12m)[0]}
+                />
+                )
+            ))}
 
         </div>
 
