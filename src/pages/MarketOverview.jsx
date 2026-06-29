@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import OverviewCategoryCard from "../components/OverviewCategoryCard";
 import OverviewCategoryCardSkeleton from "../components/OverviewCategoryCardSkeleton";
 import { MARKET_CATEGORIES } from "../data/marketCategories";
+import TopPerformerSkeleton from "../components/TopPerformerSkeleton"
 
 
 export default function MarketOverview() {
@@ -100,13 +101,15 @@ export default function MarketOverview() {
         </div>
 
         {/* TOP PERFORMER */}
-        {top && (
-          <div className="top-banner">
+        {loading ? (
+        <TopPerformerSkeleton />
+        ) : top ? (
+        <div className="top-banner">
             Best Performer (12M):{" "}
             <strong>{top.ticker}</strong> {top.name} —{" "}
             <span className="positive">{top.return_12m}%</span>
-          </div>
-        )}
+        </div>
+        ) : null}
 
         {/* MAIN GRID */}
         <div className="overview-grid">
