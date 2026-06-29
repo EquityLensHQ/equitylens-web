@@ -17,6 +17,8 @@ import EquityLensScore from "../components/EquityLensScore";
 
 import Navbar from "../components/Navbar";
 
+import Watchlist from "../components/Watchlist";
+
 export default function Lookup() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
@@ -284,39 +286,15 @@ export default function Lookup() {
 
 
             {/* WATCHLIST */}
-            <div className="watchlist-card">
-              <div className="watchlist-title">
-                Watchlist
-              </div>
-
-              {watchlist.length === 0 ? (
-                <p>No saved tickers</p>
-              ) : (
-                watchlist.map((item) => (
-                  <div key={item.id} 
-                  className={`watchlist-item ${ticker === item.ticker ? "active" : ""}  watchlist-ticker clickable`}
-                  onClick={() => {
-                    setTicker(item.ticker);
-                    setActiveTicker(item.ticker);
-                    setInputTicker(item.ticker)
-                    
-                  }}
-                  >
-                    <span>{item.ticker}</span>
-
-                    <button
-                      className="remove-btn"
-                      onClick={async () => {
-                        await removeFromWatchlist(item.id);
-                        await loadWatchlist();
-                      }}
-                    >
-                      x
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
+            <Watchlist
+              watchlist={watchlist}
+              ticker={ticker}
+              setTicker={setTicker}
+              setActiveTicker={setActiveTicker}
+              setInputTicker={setInputTicker}
+              removeFromWatchlist={removeFromWatchlist}
+              loadWatchlist={loadWatchlist}
+            />
 
           </div> {/* END TOP GRID */}
 
