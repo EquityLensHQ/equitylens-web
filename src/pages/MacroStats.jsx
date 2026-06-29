@@ -3,6 +3,7 @@ import "./MacroStats.css";
 import { getMacroStats } from "../api/macroStatsApi";
 import Navbar from "../components/Navbar";
 import RsiCard from "../components/RsiCard";
+import RsiCardSkeleton from "../components/RsiCardSkeleton";
 
 
 
@@ -28,14 +29,27 @@ export default function MarketOverview() {
 
 
 
-    if (!macroData){
-
+    if (!macroData) {
         return (
             <div className="market-page">
-                Loading...
-            </div>
-        )
+            <div className="container">
 
+                <Navbar />
+
+                <h1 className="title">Macro Stats</h1>
+
+                <p>Short-term momentum</p>
+
+                <div className="rsi-grid">
+
+                <RsiCardSkeleton title="Highest RSI-2" />
+                <RsiCardSkeleton title="Lowest RSI-2" />
+
+                </div>
+
+            </div>
+            </div>
+        );
     }
 
     return (
