@@ -43,7 +43,7 @@ export default function AuthLanding() {
         );
       }
 
-      navigate("/dashboard");
+      navigate("/lookup");
 
     } catch (err) {
       setError(err.message);
@@ -133,7 +133,7 @@ export default function AuthLanding() {
         {/* GUEST */}
         <button
           className="guest-btn"
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/lookup")}
         >
           Continue as Guest
         </button>

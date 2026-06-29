@@ -1,4 +1,4 @@
-/* PAGE BASE (MATCH DASHBOARD) */
+/* PAGE BASE (MATCH LOOKUP) */
 .auth-page {
   min-height: 100vh;
   display: flex;
@@ -10,7 +10,7 @@
   position: relative;
 }
 
-/* subtle fintech glow like dashboard */
+/* subtle fintech glow like lookup */
 .auth-page::before {
   content: "";
   position: fixed;
@@ -27,7 +27,7 @@
   max-width: 420px;
   background: white;
   border: 1px solid #e2e8f0;
-  border-radius: 16px; /* match dashboard cards */
+  border-radius: 16px; /* match lookup cards */
   padding: 28px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
   z-index: 1;
@@ -104,7 +104,7 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* PRIMARY BUTTON (MATCH DASHBOARD CTA STYLE) */
+/* PRIMARY BUTTON (MATCH LOOKUP CTA STYLE) */
 .primary-btn {
   margin-top: 6px;
   padding: 12px;

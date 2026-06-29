@@ -11,13 +11,13 @@ import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
 
 import logo from "../assets/EquitylensLogo.svg";
-import "./Dashboard.css";
+import "./Lookup.css";
 
 import EquityLensScore from "../components/EquityLensScore";
 
 import Navbar from "../components/Navbar";
 
-export default function Dashboard() {
+export default function Lookup() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
   const [startDate, setStartDate] = useState("2025-01-01");
@@ -137,7 +137,7 @@ export default function Dashboard() {
   
 
   return (
-    <div className="dashboard-page">
+    <div className="lookup-page">
 
       
       <div className="container">
@@ -145,9 +145,9 @@ export default function Dashboard() {
         <Navbar />
 
         {/* HEADER SECTION */}
-        <div className="dashboard-hero">
+        <div className="lookup-hero">
           <h1>
-            Market <span>Dashboard</span>
+            Market <span>Lookup</span>
           </h1>
           <p>
             Analyze equities with technical indicators and cached market data.
@@ -169,7 +169,7 @@ export default function Dashboard() {
         </div>
 
         {/* MAIN GRID */}
-        <div className="dashboard-layout">
+        <div className="lookup-layout">
 
           <div className="top-grid"> {/* START TOP GRID */}
 

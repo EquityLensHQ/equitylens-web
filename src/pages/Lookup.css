@@ -1,5 +1,5 @@
 /* PAGE BASE */
-.dashboard-page {
+.lookup-page {
   min-height: 100vh;
   background: #f8fafc;
   font-family: Inter, system-ui, sans-serif;
@@ -9,7 +9,7 @@
   position: relative;
 }
 
-.dashboard-page::before {
+.lookup-page::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -52,20 +52,20 @@
 }
 
 /* HERO */
-.dashboard-hero {
+.lookup-hero {
   margin-top: 30px;
 }
 
-.dashboard-hero h1 {
+.lookup-hero h1 {
   font-size: clamp(26px, 4vw, 40px);
   margin: 0;
 }
 
-.dashboard-hero h1 span {
+.lookup-hero h1 span {
   color: #2563eb;
 }
 
-.dashboard-hero p {
+.lookup-hero p {
   font-size: clamp(13px, 1.5vw, 16px);
   margin-top: 10px;
   color: #64748b;
@@ -82,7 +82,7 @@
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
 }
 
-.dashboard-layout {
+.lookup-layout {
   margin-top: 18px;
   display: flex;
   flex-direction: column;
@@ -149,7 +149,7 @@
     padding: 0 16px;
   }
 
-  .dashboard-hero h1 {
+  .lookup-hero h1 {
     font-size: 30px;
   }
 
@@ -175,11 +175,11 @@
 /* ========================= */
 @media (max-width: 480px) {
 
-  .dashboard-hero h1 {
+  .lookup-hero h1 {
     font-size: 26px;
   }
 
-  .dashboard-hero p {
+  .lookup-hero p {
     font-size: 14px;
   }
 

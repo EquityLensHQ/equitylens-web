@@ -125,9 +125,9 @@ export default function Navbar() {
 
           <button
             className="nav-link"
-            onClick={() => go("/dashboard")}
+            onClick={() => go("/lookup")}
           >
-            Dashboard
+            Lookup
           </button>
 
 
@@ -227,9 +227,9 @@ export default function Navbar() {
 
 
         <button
-          onClick={() => go("/dashboard")}
+          onClick={() => go("/lookup")}
         >
-          Dashboard
+          Lookup
         </button>
 
 
