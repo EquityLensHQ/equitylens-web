@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
 import logo from "../assets/EquitylensLogo.svg";
@@ -16,6 +16,10 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navRef = useRef(null);
+
+  const location = useLocation();
+
+  const path = location.pathname;
 
 
 
@@ -55,6 +59,9 @@ export default function Navbar() {
   }, []);
 
 
+  function isActive(route) {
+    return path === route;
+  }
 
 
   function go(path) {
@@ -124,7 +131,7 @@ export default function Navbar() {
 
 
           <button
-            className="nav-link"
+            className={`nav-link ${isActive("/lookup") ? "active" : ""}`}
             onClick={() => go("/lookup")}
           >
             Lookup
@@ -133,7 +140,7 @@ export default function Navbar() {
 
 
           <button
-            className="nav-link"
+            className={`nav-link ${isActive("/market") ? "active" : ""}`}
             onClick={() => go("/market")}
           >
             Market
@@ -142,7 +149,7 @@ export default function Navbar() {
 
 
           <button
-            className="nav-link"
+            className={`nav-link ${isActive("/macrostats") ? "active" : ""}`}
             onClick={() => go("/macrostats")}
           >
             Macro Stats
@@ -227,6 +234,7 @@ export default function Navbar() {
 
 
         <button
+          className={`nav-link ${isActive("/lookup") ? "active" : ""}`}
           onClick={() => go("/lookup")}
         >
           Lookup
@@ -235,6 +243,7 @@ export default function Navbar() {
 
 
         <button
+          className={`nav-link ${isActive("/market") ? "active" : ""}`}
           onClick={() => go("/market")}
         >
           Market
@@ -243,6 +252,7 @@ export default function Navbar() {
 
 
         <button
+          className={`nav-link ${isActive("/macrostats") ? "active" : ""}`}
           onClick={() => go("/macrostats")}
         >
           Macro Stats
