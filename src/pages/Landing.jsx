@@ -67,7 +67,7 @@ export default function Landing() {
             <div className="cta">
               <button
                 className="primary-btn"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/lookup")}
               >
                 Try Demo Mode
               </button>

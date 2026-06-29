@@ -11,17 +11,16 @@ import PriceChart from "../components/PriceChart";
 import RsiChart from "../components/RsiChart";
 
 import logo from "../assets/EquitylensLogo.svg";
-import "./Dashboard.css";
+import "./Lookup.css";
 
 import EquityLensScore from "../components/EquityLensScore";
 
 import Navbar from "../components/Navbar";
 
-export default function Dashboard() {
+export default function Lookup() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
-  const [startDate, setStartDate] = useState("2025-01-01");
-  const [endDate, setEndDate] = useState("2025-12-31");
+  const [range, setRange] = useState("1Y");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +36,38 @@ export default function Dashboard() {
   //const score = 72; // placeholder for now
   const [score, setScore] = useState(0)
 
+  const getDateRange = (range) => {
+    const end = new Date();
+
+    const start = new Date();
+
+    if (range === "1M") {
+      start.setMonth(end.getMonth() - 1);
+    }
+
+    if (range === "3M") {
+      start.setMonth(end.getMonth() - 3);
+    }
+
+    if (range === "6M") {
+      start.setMonth(end.getMonth() - 6);
+    }
+
+    if (range === "1Y") {
+      start.setFullYear(end.getFullYear() - 1);
+    }
+
+    if (range === "MAX") {
+      start.setFullYear(end.getFullYear() - 20);
+    }
+
+
+    return {
+      startDate: start.toISOString().split("T")[0],
+      endDate: end.toISOString().split("T")[0],
+    };
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -45,16 +76,22 @@ export default function Dashboard() {
       setActiveTicker(ticker);
       setError(null);
 
+
+      const { startDate, endDate } = getDateRange(range);
+
+
       const result = await getStockData(
         ticker,
         startDate,
         endDate
       );
 
+
       if (!result || !result.data || result.data.length === 0) {
         setError("No market data found for this ticker.");
         return;
       }
+
 
       setData(result.data);
 
@@ -76,6 +113,7 @@ export default function Dashboard() {
         setInsights([]);
 
       }
+
 
       try {
 
@@ -117,10 +155,10 @@ export default function Dashboard() {
   }, [token]);
 
     useEffect(() => {
-    if (ticker) {
-      fetchData();
-    }
-  }, [ticker, startDate, endDate]);
+      if (ticker) {
+        fetchData();
+      }
+    }, [ticker, range]);
 
 
   const loadWatchlist = async () => {
@@ -137,7 +175,7 @@ export default function Dashboard() {
   
 
   return (
-    <div className="dashboard-page">
+    <div className="lookup-page">
 
       
       <div className="container">
@@ -145,38 +183,37 @@ export default function Dashboard() {
         <Navbar />
 
         {/* HEADER SECTION */}
-        <div className="dashboard-hero">
+        <div className="lookup-hero">
           <h1>
-            Market <span>Dashboard</span>
+            Market <span>Lookup</span>
           </h1>
           <p>
-            Analyze equities with technical indicators and cached market data.
+            Search any stock and instantly view price trends, technical signals, and insights.
           </p>
         </div>
 
         {/* SEARCH CARD */}
-        <div className="search-card">
-          <SearchBar
-            ticker={inputTicker}
-            setTicker={setInputTicker}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            onSearch={() => setTicker(inputTicker)}
-          />
+        <SearchBar
+          ticker={inputTicker}
+          setTicker={setInputTicker}
+          range={range}
+          setRange={setRange}
+          onSearch={() => setTicker(inputTicker)}
+        />
 
-        </div>
+     
+
+        
 
         {/* MAIN GRID */}
-        <div className="dashboard-layout">
+        <div className="lookup-layout">
 
           <div className="top-grid"> {/* START TOP GRID */}
 
             {/* PRICE CHART */}
             <div className="chart-card">
               <div className="card-header">
-                <div>Price Overview</div>
+                <div>Price Trend</div>
 
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                   <div className="badge">{activeTicker}</div>
@@ -248,9 +285,9 @@ export default function Dashboard() {
 
             {/* WATCHLIST */}
             <div className="watchlist-card">
-              <h3 className="watchlist-title">
+              <div className="watchlist-title">
                 Watchlist
-              </h3>
+              </div>
 
               {watchlist.length === 0 ? (
                 <p>No saved tickers</p>

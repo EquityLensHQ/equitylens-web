@@ -1,47 +1,133 @@
 .search-bar {
   display: flex;
-  gap: 14px;
   align-items: flex-end;
+  gap: 18px;
+  padding: 14px;
+  margin-top: 28px;
+  
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
   flex-wrap: wrap;
 }
 
-.search-group {
+
+/* shared groups */
+.search-group,
+.range-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
 }
 
-.search-group label {
+
+.search-group label,
+.range-group label {
   font-size: 12px;
+  font-weight: 600;
   color: #64748b;
 }
 
+
+/* ticker input */
 .input {
-  padding: 10px 12px;
+  height: 42px;
+  width: 130px;
+  padding: 0 14px;
+
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  background: white;
-  font-size: 14px;
+  border: 1px solid #cbd5e1;
+
+  background: #f8fafc;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
   outline: none;
-  min-width: 140px;
+
+  transition: 0.15s ease;
 }
+
 
 .input:focus {
+  background: white;
   border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
-.search-btn {
-  padding: 10px 16px;
+
+/* range selector */
+.range-buttons {
+  display: flex;
+  height: 42px;
+
   border-radius: 10px;
+  overflow: hidden;
+
+  border: 1px solid #cbd5e1;
+}
+
+
+.range-btn {
   border: none;
+  padding: 0 14px;
+
+  background: #f8fafc;
+
+  color: #475569;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
+
+.range-btn:hover {
+  background: #e2e8f0;
+}
+
+
+.range-btn.active {
   background: #2563eb;
   color: white;
-  font-weight: 600;
-  cursor: pointer;
-  height: 40px;
 }
+
+
+/* analyze button */
+.search-btn {
+  height: 42px;
+
+  padding: 0 22px;
+
+  border-radius: 10px;
+  border: none;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.15s ease;
+}
+
 
 .search-btn:hover {
   background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+
+.search-btn:active {
+  transform: translateY(0);
 }
