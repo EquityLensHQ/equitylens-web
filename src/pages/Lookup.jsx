@@ -20,8 +20,7 @@ import Navbar from "../components/Navbar";
 export default function Lookup() {
   const [inputTicker, setInputTicker] = useState("AAPL");
   const [ticker, setTicker] = useState("AAPL");
-  const [startDate, setStartDate] = useState("2025-01-01");
-  const [endDate, setEndDate] = useState("2025-12-31");
+  const [range, setRange] = useState("1Y");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -37,6 +36,38 @@ export default function Lookup() {
   //const score = 72; // placeholder for now
   const [score, setScore] = useState(0)
 
+  const getDateRange = (range) => {
+    const end = new Date();
+
+    const start = new Date();
+
+    if (range === "1M") {
+      start.setMonth(end.getMonth() - 1);
+    }
+
+    if (range === "3M") {
+      start.setMonth(end.getMonth() - 3);
+    }
+
+    if (range === "6M") {
+      start.setMonth(end.getMonth() - 6);
+    }
+
+    if (range === "1Y") {
+      start.setFullYear(end.getFullYear() - 1);
+    }
+
+    if (range === "MAX") {
+      start.setFullYear(end.getFullYear() - 20);
+    }
+
+
+    return {
+      startDate: start.toISOString().split("T")[0],
+      endDate: end.toISOString().split("T")[0],
+    };
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -45,16 +76,22 @@ export default function Lookup() {
       setActiveTicker(ticker);
       setError(null);
 
+
+      const { startDate, endDate } = getDateRange(range);
+
+
       const result = await getStockData(
         ticker,
         startDate,
         endDate
       );
 
+
       if (!result || !result.data || result.data.length === 0) {
         setError("No market data found for this ticker.");
         return;
       }
+
 
       setData(result.data);
 
@@ -76,6 +113,7 @@ export default function Lookup() {
         setInsights([]);
 
       }
+
 
       try {
 
@@ -117,10 +155,10 @@ export default function Lookup() {
   }, [token]);
 
     useEffect(() => {
-    if (ticker) {
-      fetchData();
-    }
-  }, [ticker, startDate, endDate]);
+      if (ticker) {
+        fetchData();
+      }
+    }, [ticker, range]);
 
 
   const loadWatchlist = async () => {
@@ -155,21 +193,17 @@ export default function Lookup() {
         </div>
 
         {/* SEARCH CARD */}
-        <div className="search-card">
-          <div className="search-label">
-            Analyze a stock
-          </div>
-          <SearchBar
-            ticker={inputTicker}
-            setTicker={setInputTicker}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            onSearch={() => setTicker(inputTicker)}
-          />
+        <SearchBar
+          ticker={inputTicker}
+          setTicker={setInputTicker}
+          range={range}
+          setRange={setRange}
+          onSearch={() => setTicker(inputTicker)}
+        />
 
-        </div>
+     
+
+        
 
         {/* MAIN GRID */}
         <div className="lookup-layout">
