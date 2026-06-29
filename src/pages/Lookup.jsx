@@ -150,12 +150,15 @@ export default function Lookup() {
             Market <span>Lookup</span>
           </h1>
           <p>
-            Analyze equities with technical indicators and cached market data.
+            Search any stock and instantly view price trends, technical signals, and insights.
           </p>
         </div>
 
         {/* SEARCH CARD */}
         <div className="search-card">
+          <div className="search-label">
+            Analyze a stock
+          </div>
           <SearchBar
             ticker={inputTicker}
             setTicker={setInputTicker}
@@ -176,7 +179,7 @@ export default function Lookup() {
             {/* PRICE CHART */}
             <div className="chart-card">
               <div className="card-header">
-                <div>Price Overview</div>
+                <div>Price Trend</div>
 
                 <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
                   <div className="badge">{activeTicker}</div>
@@ -248,9 +251,9 @@ export default function Lookup() {
 
             {/* WATCHLIST */}
             <div className="watchlist-card">
-              <h3 className="watchlist-title">
+              <div className="watchlist-title">
                 Watchlist
-              </h3>
+              </div>
 
               {watchlist.length === 0 ? (
                 <p>No saved tickers</p>
